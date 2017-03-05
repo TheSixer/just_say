@@ -1,7 +1,7 @@
 {
   "pages": [
     "page/mine/index",
-    "page/member/index",
+    "page/speakFan/index",
     "page/order/index"
   ],
   "window": {
@@ -18,7 +18,7 @@
     "borderStyle": "white",
     "backgroundColor": "#F8F8FA",
     "list": [{
-      "pagePath": "page/member/index",
+      "pagePath": "page/speakFan/index",
       "iconPath": "image/icon_user.png",
       "selectedIconPath": "image/icon_user_HL.png",
       "text": "说说看"

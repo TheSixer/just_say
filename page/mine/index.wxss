@@ -1,5 +1,5 @@
 .page-body-info {
-  height: 250rpx;
+  height: 280rpx;
 }
 .header {
   position: relative;

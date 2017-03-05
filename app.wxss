@@ -54,7 +54,7 @@ page {
   align-items: center;
   background-color: #fff;
   width: 100%;
-  padding: 50rpx 0 0;
+  padding:100rpx 0 20rpx;
 }
 .page-body-title {
   margin-bottom: 100rpx;

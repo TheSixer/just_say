@@ -1,91 +1,32 @@
 <view class="container">
   <view class="page-head">
     <view class="page-body-info header">
-      <button class="sign" size="mini" bindtap="http_sign" disabled="{{hasSign}}" style="padding:0 5px;">{{sign}}</button>
       <block>
-        <navigator class="navigator" url="{{hasLogin?'':'login/index'}}" hover-class="none">
-          <wx-image class="userinfo-avatar" src="{{userHead}}"></wx-image>
-          <text class="userinfo-nickname">{{nickName == ''?userName:nickName}}</text>
-        </navigator>
+        <view class="navigator">
+          <wx-image class="userinfo-avatar" src="{{userInfo.avatarUrl}}"></wx-image>
+          <text class="userinfo-nickname">{{userInfo.nickName}}</text>
+        </view>
       </block>
-    </view>
-    <view class="flex-wrp" style="flex-direction:row;">
-      <view class="flex-item">
-        <block>
-          <navigator class="navigator" hover-class="widget-hover" url="carInfo/index">
-            <wx-image class="flex-icon" src="/image/myCar.png"></wx-image>
-            <text class="flex-item-name">我的车辆</text>
-          </navigator>
-        </block>
-      </view>
-      <view class="flex-item">
-        <block>
-          <navigator class="navigator integral" hover-class="widget-hover" url="myIntegral/index">
-            <wx-image class="flex-icon" src="/image/myIntegral.png"></wx-image>
-            <text class="flex-item-name">我的积分</text>
-            <text class="add5" animation="{{animationData}}" style="opacity:{{integralOpacity}}">+5</text>
-          </navigator>
-        </block>
-      </view>
-      <view class="flex-item">
-        <block>
-          <navigator class="navigator" hover-class="widget-hover" url="remind/index">
-            <wx-image class="flex-icon" src="/image/remind.png"></wx-image>
-            <text class="flex-item-name">我的提醒</text>
-          </navigator>
-        </block>
-      </view>
     </view>
   </view>
 
   <view class="widgets">
     <navigator class="widget" hover-class="widget-hover" url="reservationServices/index?uid={{userInfo.user.uid}}&carId={{userInfo.car[0].carId}}&accessToken={{userInfo.user.accessToken}}">
       <image class="widget_icon" src="/image/reservationServices.png"></image>
-      <text class="widget__name">预约维保</text>
+      <text class="widget__name">我的课程</text>
       <image src="/image/arrowright.png" mode="aspectFill" class="widget__arrow"></image>
     </navigator>
     <navigator class="widget" hover-class="widget-hover" url="vehicleServices/index">
-      <image class="widget_icon" src="/image/vehicleServices.png"></image>
-      <text class="widget__name">车辆服务</text>
+      <image class="widget_icon" src="/image/reservationServicesRecord.png"></image>
+      <text class="widget__name">关于Speakfan</text>
       <image src="/image/arrowright.png" mode="aspectFill" class="widget__arrow"></image>
       <view class="widget__line"></view>
     </navigator>
     <navigator class="widget" hover-class="widget-hover" url="reservationServicesRecord/index">
-      <image class="widget_icon" src="/image/reservationServicesRecord.png"></image>
-      <text class="widget__name">预约维保记录查询</text>
-      <image src="/image/arrowright.png" mode="aspectFill" class="widget__arrow"></image>
-      <view class="widget__line"></view>
-    </navigator>
-    <!--<navigator class="widget" hover-class="widget-hover" url="orderRecord/index">
-      <image class="widget_icon" src="/image/orderRecord.png"></image>
-      <text class="widget__name">我的订单</text>
-      <image src="/image/arrowright.png" mode="aspectFill" class="widget__arrow"></image>
-      <view class="widget__line"></view>
-    </navigator>-->
-    <navigator class="widget" hover-class="widget-hover" url="">
       <image class="widget_icon" src="/image/privilege.png"></image>
-      <text class="widget__name">车主特权</text>
-      <text class="tips">车主享98折购油卡</text>
-      <image src="/image/arrowright.png" mode="aspectFill" class="widget__arrow"></image>
-      <view class="widget__line"></view>
-      <!--<view class="widget__line"></view>-->
-    </navigator>
-  </view>
-
-  <view class="widgets">
-    <navigator class="widget" hover-class="widget-hover" url="feedback/index?uid={{userInfo.user.uid}}&username={{userInfo.user.username}}&accessToken={{userInfo.user.accessToken}}">
-      <image class="widget_icon" src="/image/feedback.png"></image>
-      <text class="widget__name">意见反馈</text>
-      <image src="/image/arrowright.png" mode="aspectFill" class="widget__arrow"></image>
-      <!--<view class="widget__line"></view>-->
-    </navigator>
-    <navigator class="widget" hover-class="widget-hover" url="hotline/index">
-      <image class="widget_icon" src="/image/hotline.png"></image>
-      <text class="widget__name">服务热线</text>
+      <text class="widget__name">版权信息</text>
       <image src="/image/arrowright.png" mode="aspectFill" class="widget__arrow"></image>
       <view class="widget__line"></view>
     </navigator>
   </view>
-
-  <!--<template is="footer" />-->
 </view>
