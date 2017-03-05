@@ -1,0 +1,127 @@
+.page-body-info {
+  height: 250rpx;
+}
+.header {
+  position: relative;
+}
+.sign {
+  position: absolute;
+  top: 50rpx;
+  right: 40rpx;
+  padding-left: 5px;
+  padding-right: 5px;
+  width: 65px;
+  background-color: #ffa500;
+  color: #FFFFFF;
+  border: #FFFFFF 1px solid;
+}
+.navigator {
+  display:flex;
+  flex-direction:column;
+  align-items: center;
+}
+.userinfo-avatar {
+  border-radius: 128rpx;
+  width: 128rpx;
+  height: 128rpx;
+  border:1px solid #DDD;
+}
+.userinfo-nickname {
+  margin-top: 20rpx;
+  font-size: 38rpx;
+}
+.navigator-hover button{
+  background-color:blue;
+}
+.other-navigator-hover button{
+  background-color:red;
+}
+.widgets {
+  background: #ffffff;
+  margin-bottom: 30rpx;
+}
+.widget{
+    position: relative;
+    padding-top: 26rpx;
+    padding-bottom: 26rpx;
+    padding-left: 92rpx;
+    padding-right: 40rpx;
+}
+.widget_icon {
+  position: absolute;
+  width: 48rpx;
+  height: 48rpx;
+  top: 24rpx;
+  left: 30rpx;
+  border-radius: 4px;
+}
+.widget__arrow{
+    position: absolute;
+    top: 32rpx;
+    right: 44rpx;
+    width: 32rpx;
+    height: 32rpx;
+}
+.widget__line{
+    content: " ";
+    position: absolute;
+    left: 30rpx;
+    top: 0;
+    right: 0;
+    height: 2rpx;
+    background-color: #F2F2F2;
+}
+.widget__line_first{
+    left: 0;
+    right: 0;
+    background-color: #D8D8D8;
+}
+.flex-wrp{
+  height: 100px;
+  display:flex;
+  background-color: #FFFFFF;
+}
+.flex-item{
+  width: 33.3333%;
+  height: 100px;
+  color: #FFFFFF;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction:column;
+}
+.flex-icon{
+    width: 96rpx;
+    height: 96rpx;
+    border-radius: 48rpx;
+    vertical-align: middle;
+}
+.flex-item-name {
+    margin-top: 10rpx;
+    color: #333;
+    font-size: 14px;
+    font-weight: bold;
+}
+.widget__name{
+    font-weight: bold;
+}
+.widget-hover{
+  background: none;
+}
+.tips {
+  float:right;
+  margin-right:20px;
+  color:#ffa500;
+  font-size: 14px;
+  line-height: 23px;
+}
+.integral {
+  position: relative;
+}
+.add5 {
+  position: absolute;
+  bottom: 10px;
+  right: -20px;
+  color: #ffa500;
+  font-size: 12px;
+}
