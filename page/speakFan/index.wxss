@@ -80,3 +80,42 @@
     line-height: 38rpx;
     color: #333333;
 }
+.course {
+    background-color: #FFF;
+}
+.list {
+    position: relative;
+    display:flex;
+    margin:0 30rpx;
+    height:58rpx;
+    padding: 20rpx 0;
+    line-height:58rpx;
+    border-bottom:0.5px solid #ddd;
+}
+.list:last-child {
+    border-bottom: none;
+}
+.finished {
+    position:absolute;
+    width:50rpx;
+    height:50rpx;
+    top: 19rpx;
+    left:15%;
+}
+.left {
+    display: flex;
+    line-height: 58rpx;
+    width: 70%;
+    color: #009200;
+}
+.bold {
+    font-weight: bold;
+}
+.right {
+    width: 30%;
+    text-align: right;
+}
+.right button {
+    margin: 0;
+    max-width: 100%;
+}
