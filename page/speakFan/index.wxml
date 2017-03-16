@@ -1,7 +1,7 @@
 <view class="page">
   <view class="body">
     <view class="widget" url="storeDetail/index?dealer_id={{item.dealer_id}}&location={{location}}">
-      <image mode="aspectFit" class="widget_icon" src="/image/moofun/moofunIndex.png"></image>
+      <image mode="aspectFit" class="widget_icon" src="/image/test.png"></image>
       <view class="widget_info">
         <view class="name">
           <text>精选美语一级</text>
@@ -40,5 +40,7 @@
         </view>
       </view>
     </view>
+
+    <button type="default" bindtap="download">download</button>
   </view>
 </view>

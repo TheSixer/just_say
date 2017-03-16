@@ -1,4 +1,4 @@
 var config = {
-    api: 'https://scrm-test.ihaima.com'
+    api: 'https://www.speakfan.net/wa/service/'
 }
 module.exports.config = config 

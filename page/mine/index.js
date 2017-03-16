@@ -4,12 +4,52 @@ var app = getApp()
 Page({
   data: {
     hasLogin: false,
-    userInfo: {},
-    nickName: '点击登录'
+    userInfo: {}
+  },
+  checkCode: function() {
+    var that = this
+
+    if(app.globalData.code) {
+      that.getStorage()
+
+      that.serviceLogin()
+    } else {
+      that.login()
+    }
+  },
+  checkOpenId: function() {
+    var that = this
+    wx.getStorage({
+      key: 'openId',
+      success: function(res){
+        if(res.data.openId) {
+          console.log(res.data)
+        }
+      },
+      fail: function() {
+        that.checkCode()
+      }
+    })
+  },
+  serviceLogin: function(code) {
+    var that = this
+    var url = that.data.url + 'wechat_login',
+        data = {
+          code: app.globalData.code
+        }
+    http._get(url, data, 
+      function(res) {
+        dealErr.dealErr(res, function() {
+          console.log(res)
+        })
+      }, function(res) {
+        dealErr.fail()
+      })
   },
   getStorage: function() {
     var that = this
     //检查是否已有登录信息
+    
     wx.getStorage({
       key: 'userInfo',
       success: function(res) {
@@ -22,30 +62,32 @@ Page({
             userInfo: res.data,
             hasLogin: true
           })
+          console.log(res)
         }
       },
       fail: function(res) {
-          that.getUserInfo()
+          that.login()
       }
     })
   },
-  getUserInfo:function(cb){
+  login:function(){
     var that = this;
 
     //调用登录接口
     wx.login({
       success: function(res) {
-        _getUserInfo(res.code)
+        console.log(res.code)
+        app.globalData.code = res.code
+        that.serviceLogin()
+        _getUserInfo()
       }
     })
 
-    function _getUserInfo(code) {
+    function _getUserInfo() {
       wx.getUserInfo({
         success: function (res) {
           //将用户信息添加到全局
           var userInfo = res.userInfo
-
-          userInfo.code = code
 
           app.globalData.hasLogin = true
           app.globalData.userInfo = userInfo
@@ -54,7 +96,7 @@ Page({
             userInfo: userInfo,
             hasLogin: true
           })
-
+          console.log(res)
           try {
             wx.setStorageSync('userInfo', userInfo)
           } catch (e) {    
@@ -74,13 +116,26 @@ Page({
   onLoad: function () {
     var that = this
     //如果用户已登录，获取用户本地信息
-    that.getStorage()
+    // that.checkCode()
     
     var APIUrl = app.globalData.APIUrl
 
     that.setData({
       url: APIUrl
     })
+
+    that.login()
+    // wx.checkSession({
+    //   success: function(res){
+    //     console.log(res)
+    //   },
+    //   fail: function(res){
+    //     console.log(res)
+    //     //登录态过期
+    //     wx.login() //重新登录
+        
+    //   }
+    // })
 
   },
   onReady:function(){
