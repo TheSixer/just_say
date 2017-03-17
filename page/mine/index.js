@@ -22,6 +22,7 @@ Page({
             userInfo: res.data,
             hasLogin: true
           })
+          console.log(res.data)
         }
       },
       fail: function(res) {
@@ -35,9 +36,31 @@ Page({
     //调用登录接口
     wx.login({
       success: function(res) {
-        _getUserInfo(res.code)
+        console.log(res.code)
+        getOpenId(res.code)
+        // _getUserInfo(res.code)
       }
     })
+
+    function getOpenId(code) {
+      var url = that.data.url + '/wechat_login',
+          data = {
+            code: code
+          }
+      http._get(url, data, 
+        function(res) {
+          dealErr.dealErr(res, function() {
+            console.log(res)
+            wx.setStorage({
+              key: 'openId',
+              data: res.data
+            })
+          })
+        }, function(res) {
+          console.log(res)
+          dealErr.fail()
+        })
+    }
 
     function _getUserInfo(code) {
       wx.getUserInfo({
