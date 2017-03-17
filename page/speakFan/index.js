@@ -27,51 +27,26 @@ Page({
 
   },
   getData: function() {//请求数据
-    var that = this;
+    var that = this
 
     that.setData({    //正在请求。。。
       isloading: true
     })
 
-    var url = this.data.url + '/moofun/dealer',
+    var url = this.data.url + '',
         data = {
-          clientId: 'haima_mini_apps',
-          deviceId: 'miniApps' ,
-          source: 'miniApps',
-          page: that.data.page,
-          order: that.data.order,
-          latitude: that.data.location.latitude,
-          longitude: that.data.location.longitude,
+          
         }
 
     http._get( url, data,
       function( res ) {
-        that.setData({    //请求完成
-          isloading: false
-        })
-        //请求完成，隐藏加载Toast
-        that.hideToast()
-        var data = res.data.data;
         
-        for(var i = 0; i < data.length; i++) {
-          if(!!data[i].avatar.middleUrl)
-            data[i].avatar.middleUrl = data[i].avatar.middleUrl.replace(/http/, 'https')
-          else
-            data[i].avatar.middleUrl = '/image/page/store.png'
-          
-          if(data[i].hasOwnProperty('distance')) {
-            data[i].distance = data[i].distance.toFixed(2)
-            data[i].distance = data[i].distance + 'km'
-          }
-          that.data.list.push(data[i])
-        }
-        
-        that.setData({
-          list: that.data.list
-        })
       }, function( res ) {
         console.log( res );
       });
+  },
+  download: function() {
+
   },
   onLoad:function(options){
     //进入页面显示加载动画
