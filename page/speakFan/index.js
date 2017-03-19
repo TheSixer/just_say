@@ -3,50 +3,59 @@ var http = require('../../service/request.js'),
     app = getApp()
 Page({
   data:{
-    location: {},
-    list: [],
-    page: 1,
-    order: 0,
+    index: 0,
     isLoading: false    //是否请求中
   },
-  pullUpLoad: function( e ) {
-    var isLoading = this.data.isLoading
-
-    if(!isLoading) {
-      //loading动画
-      this.loadingToast()
-
-      this.setData( {
-        page: this.data.page + 1
-      })
-      this.getData()
-    }
-      
-
-    console.log( "上拉拉加载更多...." + this.data.page )
-
+  toStudy: function() {
+    var that = this
+    wx.navigateTo({
+      url: 'study/index?index=' + (that.data.index + 1)
+    })
   },
-  getData: function() {//请求数据
+  getOrderInfo: function() {
     var that = this
 
     that.setData({    //正在请求。。。
       isloading: true
     })
 
-    var url = this.data.url + '',
+    var url = this.data.api + 'order',
         data = {
-          
+          id: 'only',
+          user_id: that.data.info.user_id
         }
 
     http._get( url, data,
       function( res ) {
-        
+        dealErr.dealErr(res, function() {
+          console.log(res.data)
+        })
       }, function( res ) {
-        console.log( res );
+        dealErr.fail()
       });
   },
-  download: function() {
-
+  getUserId: function() {
+    var that = this
+    wx.getStorage({
+      key: 'info',
+      success: function(res){
+        // success
+        that.setData({
+          order: true,
+          info: res.data
+        })
+        that.getOrderInfo()
+      },
+      fail: function() {
+        // fail
+        that.setData({
+          order: false
+        })
+        var title = '提示',
+            tips = '抱歉，您还未订阅任何课程！'
+        dealErr.showTips(title, tips, function(){})
+      }
+    })
   },
   onLoad:function(options){
     //进入页面显示加载动画
@@ -57,9 +66,10 @@ Page({
         APIUrl = app.globalData.APIUrl
 
     that.setData({
-      url: APIUrl
+      api: APIUrl
     })
 
+    that.getUserId()
     // that.getData()
 
   },
@@ -67,15 +77,7 @@ Page({
     // 页面渲染完成
   },
   onShow:function(){
-    // 页面显示
-    // wx.getSystemInfo( {
-    //   success: ( res ) => {
-    //     this.setData( {
-    //       windowHeight: res.windowHeight,
-    //       windowWidth: res.windowWidth
-    //     })
-    //   }
-    // })
+
   },
   onHide:function(){
     // 页面隐藏

@@ -20,6 +20,16 @@
     <view class="course">
       <view class="list">
         <text class="left">课<text class="bold"> 1 </text></text>
+        <!--<image class="finished" mode="aspectFit" src="/image/timg.jpg"></image>-->
+        <view class="right">
+          <button type="primary" size="mini" class="order" bindtap="toStudy">学习</button>
+        </view>
+      </view>
+    </view>
+
+    <view class="course">
+      <view class="list">
+        <text class="left">课<text class="bold"> 1 </text></text>
         <image class="finished" mode="aspectFit" src="/image/timg.jpg"></image>
         <view class="right">
           <button type="primary" size="mini" class="order">再来一遍</button>

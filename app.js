@@ -14,6 +14,7 @@ App({
     console.log('App Hide')
   },
   globalData: {
-    APIUrl: config.config.api
+    APIUrl: config.config.api,
+    url: config.config.url
   }
 })

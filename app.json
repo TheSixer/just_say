@@ -2,6 +2,7 @@
   "pages": [
     "page/mine/index",
     "page/speakFan/index",
+    "page/speakFan/study/index",
     "page/order/index"
   ],
   "window": {
