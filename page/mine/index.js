@@ -13,6 +13,9 @@ Page({
       success: function(res){
         if(res.data) {
           that.getStorage()
+          that.getUserInfo()
+        } else {
+          that.login()
         }
       },
       fail: function() {
@@ -24,12 +27,18 @@ Page({
     var that = this
     var url = that.data.url + 'wechat_login',
         data = {
-          code: app.globalData.code
+          code: code
         }
+
     http._get(url, data, 
       function(res) {
         dealErr.dealErr(res, function() {
-          console.log(res)
+          console.log(res.openid)
+          app.globalData.openId = res.openid
+          wx.setStorage({
+            key: 'openId',
+            data: res.openid
+          })
         })
       }, function(res) {
         dealErr.fail()
@@ -78,7 +87,7 @@ Page({
         dealErr.fail()
       })
   },
-  getUserInfo: function() {
+  getUserInfo: function () {
     var that = this
     wx.getUserInfo({
       success: function (res) {
@@ -92,7 +101,7 @@ Page({
           userInfo: userInfo,
           hasLogin: true
         })
-        console.log(res)
+
         try {
           wx.setStorageSync('userInfo', userInfo)
         } catch (e) {    
@@ -167,6 +176,7 @@ Page({
         console.log(res)
       }
     })
+    that.checkOpenId()
   },
   onReady:function(){
     // 页面渲染完成

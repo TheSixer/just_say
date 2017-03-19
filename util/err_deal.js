@@ -1,17 +1,6 @@
 function dealErr(res, success) {
     if(res.statusCode === 200) {
         success()
-    } else if(res.data.code === '10006' || res.data.code === '10007') {
-        var title = '账号异常',
-            tips = '账号失效，请重新登录'
-
-        showTips(title, tips, function() {
-            wx.clearStorage()
-            //跳转到初始页面
-            wx.switchTab({
-                url: '/page/member/index'
-            })
-        })
     } else {
         var title = '错误',
             tips = res.data.message
@@ -19,7 +8,7 @@ function dealErr(res, success) {
         showTips(title, tips, function() {
             //跳转到初始页面
             wx.switchTab({
-                url: '/page/member/index'
+                url: '/page/mine/index'
             })
         })
     }
@@ -45,7 +34,7 @@ function fail() {
     showTips(title, tips, function() {
         //跳转到初始页面
         wx.switchTab({
-            url: '/page/member/index'
+            url: '/page/mine/index'
         })
     })
 }
