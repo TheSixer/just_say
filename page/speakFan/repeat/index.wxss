@@ -14,11 +14,16 @@
     border-bottom: none;
 }
 .en {
-    color: #fff;
+    color:#FFF;
     line-height: 40rpx;
 }
 .ch {
-    color: #fff;
+    color:#FFF;
+    margin-top: 5rpx;
+    line-height: 48rpx;
+}
+.words {
+    color:#FFF;
     margin-top: 5rpx;
     line-height: 48rpx;
 }
@@ -28,7 +33,7 @@
     padding: 20rpx 0;
     left: 0;
     bottom: 0;
-    background: #000;
+    background: #FFF;
 }
 .btn-group .nav {
     display: inline-block;

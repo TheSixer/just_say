@@ -1,0 +1,35 @@
+<view class="page">
+    <view class="playBlock">
+        <view class="playTime">{{playTime}}</view>
+        <view class="page-body-buttons">
+            <block wx:if="{{playing === true}}">
+                <view class="page-body-button" bindtap="pause">
+                    <view class="btn">
+                        <image src="/image/pause.png"></image>
+                    </view>
+                </view>
+            </block>
+            <block wx:if="{{playing === false}}">
+                <view class="page-body-button"></view>
+                <view class="page-body-button" bindtap="play">
+                    <view class="btn">
+                        <image src="/image/play.png"></image>
+                    </view>
+                </view>
+            </block>
+            <view class="page-body-button"></view>
+        </view>
+    </view>
+    <view class="content">
+        <view class="li" wx:for="{{arr}}" wx:key="words" >
+            <view id="{{item.index}}" data-index="{{item.index}}" bindtap="doubleClick">
+                <view class="en">
+                    <image hidden="{{item.index != li}}" class="playing" mode="aspectFit" src="/image/playing.jpg"></image>
+                {{index}}. {{item.text_en}}
+                </view>
+                <view class="ch"> {{item.text_ch}}</view>
+                <view hidden="{{item.index != currentTag}}" class="words">{{item.words}}</view>
+            </view>
+        </view>
+    </view>
+</view>

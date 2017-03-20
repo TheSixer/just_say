@@ -3,21 +3,23 @@
     "page/mine/index",
     "page/speakFan/index",
     "page/speakFan/study/index",
+    "page/speakFan/hear/index",
+    "page/speakFan/repeat/index",
     "page/order/index"
   ],
   "window": {
     "navigationBarTextStyle": "white",
     "navigationBarTitleText": "MOOFUN",
-    "navigationBarBackgroundColor": "#338EE3",
+    "navigationBarBackgroundColor": "#000",
     "backgroundColor": "#fbf9fe",
     "backgroundTextStyle": "dark",
     "enablePullDownRefresh": true
   },
   "tabBar": {
-    "color": "#696969",
-    "selectedColor": "#338EE3",
+    "color": "#FFF",
+    "selectedColor": "yellow",
     "borderStyle": "white",
-    "backgroundColor": "#F8F8FA",
+    "backgroundColor": "#000",
     "list": [{
       "pagePath": "page/speakFan/index",
       "iconPath": "image/icon_user.png",

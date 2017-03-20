@@ -137,8 +137,9 @@ Page({
     })
 
     // that.checkOpenId()
+
     wx.downloadFile({
-      url: 'https://www.speakfan.net/wa/service/resource?file=inverse', //仅为示例，并非真实的资源
+      url: 'https://www.speakfan.net/wa/service/resource?file=scene-_1024957', //仅为示例，并非真实的资源
       success: function(res) {
         console.log(res)
         wx.playVoice({
@@ -150,30 +151,6 @@ Page({
             console.log(res)
           }
         })
-      }
-    })
-    wx.downloadFile({
-      url: 'https://www.speakfan.net/sent2000/0/inverse.mp3', //仅为示例，并非真实的资源
-      success: function(res) {
-        console.log(res)
-        wx.playVoice({
-          filePath: res.tempFilePath,
-          success:function(res) {
-            console.log(res)
-          },
-          fail:function(res) {
-            console.log(res)
-          }
-        })
-      }
-    })
-    wx.playVoice({
-      filePath: 'https://www.speakfan.net/sent2000/0/inverse.mp3',
-      success:function(res) {
-        console.log(res)
-      },
-      fail:function(res) {
-        console.log(res)
       }
     })
     that.checkOpenId()

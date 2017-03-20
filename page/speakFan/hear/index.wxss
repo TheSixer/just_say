@@ -1,0 +1,76 @@
+.page {
+    background: #000;
+}
+.playBlock {
+    display: block;
+    width: 100%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    padding: 30rpx 0;
+    background: #F3F3F3;
+}
+.playTime {
+    text-align: center;
+}
+.page-body-button {
+    margin: 0;
+    text-align: center;
+}
+.btn {
+    display: inline-block;
+    padding: 20rpx;
+    border-radius: 70rpx;
+}
+.status {
+    display: inline-block;
+}
+.btn image {
+    width: 100rpx;
+    height: 100rpx;
+}
+.content {
+    padding-top: 260rpx;
+    padding-bottom: 160rpx;
+}
+.li {
+    padding:20rpx 0;
+    margin:0 30rpx;
+    background: #000;
+    border-bottom: 1rpx solid #DDD;
+}
+.li:last-child {
+    border-bottom: none;
+}
+.playing {
+    width: 30rpx;
+    height: 30rpx;
+}
+.en {
+    color:#FFF;
+    line-height: 40rpx;
+}
+.ch {
+    color:#FFF;
+    margin-top: 5rpx;
+    line-height: 48rpx;
+    text-indent: 20rpx;
+}
+.words {
+    color:#FFF;
+    margin-top: 5rpx;
+    line-height: 48rpx;
+}
+.btn-group {
+    position: fixed;
+    width: 100%;
+    padding: 20rpx 0;
+    left: 0;
+    bottom: 0;
+    background: #FFF;
+}
+.btn-group .nav {
+    display: inline-block;
+    width: 50%;
+    text-align: center;
+}
