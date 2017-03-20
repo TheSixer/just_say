@@ -19,17 +19,18 @@
             </block>
             <view class="page-body-button"></view>
         </view>
+        <button data-hash="hash{{li}}" bindtap="goHash" class="currentIndex" size="mini">{{li + 1}}</button>
     </view>
-    <view class="content">
-        <view class="li" wx:for="{{arr}}" wx:key="words" >
-            <view id="{{item.index}}" data-index="{{item.index}}" bindtap="doubleClick">
+    <scroll-view scroll-y="true" scroll-into-view="{{mao}}" style="height: {{windowHeight}}px" class="content">
+        <view id="hash{{item.index}}" data-id="{{item.index}}" class="li" wx:for="{{arr}}" wx:key="words" bindtap="doubleClick">
+            <view data-index="{{item.index}}">
                 <view class="en">
                     <image hidden="{{item.index != li}}" class="playing" mode="aspectFit" src="/image/playing.jpg"></image>
-                {{index}}. {{item.text_en}}
+                {{index + 1}}. {{item.text_en}}
                 </view>
                 <view class="ch"> {{item.text_ch}}</view>
                 <view hidden="{{item.index != currentTag}}" class="words">{{item.words}}</view>
             </view>
         </view>
-    </view>
+    </scroll-view>
 </view>

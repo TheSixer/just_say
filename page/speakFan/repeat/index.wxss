@@ -1,8 +1,38 @@
 .page {
     background: #000;
 }
+.playBlock {
+    display: block;
+    width: 100%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    padding: 30rpx 0;
+    background: #F3F3F3;
+    z-index: 100;
+}
+.playTime {
+    text-align: center;
+}
+.page-body-button {
+    margin: 0;
+    text-align: center;
+}
+.btn {
+    display: inline-block;
+    padding: 20rpx;
+    border-radius: 70rpx;
+}
+.status {
+    display: inline-block;
+}
+.btn image {
+    width: 100rpx;
+    height: 100rpx;
+}
 .content {
-    padding-bottom: 160rpx;
+    padding-top: 260rpx;
+    z-index: 10;
 }
 .li {
     padding:20rpx 0;
@@ -13,6 +43,10 @@
 .li:last-child {
     border-bottom: none;
 }
+.playing {
+    width: 30rpx;
+    height: 30rpx;
+}
 .en {
     color:#FFF;
     line-height: 40rpx;
@@ -21,11 +55,17 @@
     color:#FFF;
     margin-top: 5rpx;
     line-height: 48rpx;
+    text-indent: 20rpx;
 }
 .words {
     color:#FFF;
     margin-top: 5rpx;
     line-height: 48rpx;
+}
+.currentIndex {
+    position: absolute;
+    top: 20rpx;
+    right: 20rpx;
 }
 .btn-group {
     position: fixed;

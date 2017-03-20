@@ -9,7 +9,15 @@ Page({
     playing: false,
     currentTag: '',
     stop: false,
-    playTime: '00:00:00'
+    playTime: '00:00:00',
+    mao: 4
+  },
+  goHash (e) {
+      let hash = e.currentTarget.dataset.hash
+      console.log(hash)
+      this.setData({
+          mao: hash
+      })
   },
   doubleClick: function (e) {
     var that = this
@@ -17,12 +25,12 @@ Page({
     var curTime = e.timeStamp
     //上一次触摸距离页面打开时间毫秒数
     var lastTime = this.data.lastTapDiffTime
-
+    console.log(e)
     if(lastTime > 0) {
       //如果两次单击间隔小于300毫秒，认为是双击
       if(curTime - lastTime < 300) {
         //双击
-        if(that.data.currentTag == e.currentTarget.id) {
+        if(that.data.currentTag == e.currentTarget.dataset.id) {
           that.setData({
             loop: false,
             currentTag: ''
@@ -30,8 +38,8 @@ Page({
         } else {
           that.setData({
             loop: true,
-            li: parseInt(e.currentTarget.id),
-            currentTag: e.currentTarget.id
+            li: parseInt(e.currentTarget.dataset.id),
+            currentTag: e.currentTarget.dataset.id
           })
           that.play()
           that.afterStop()
@@ -168,6 +176,16 @@ Page({
   onLoad:function(options){
     // 页面初始化 options为页面跳转所带来的参数
     var that = this
+
+    wx.getSystemInfo( {
+      success: ( res ) => {
+        this.setData( {
+          windowHeight: res.windowHeight - 140,
+          windowWidth: res.windowWidth
+        })
+      }
+    })
+
     that.audioCtx = wx.createAudioContext('myAudio')
     var api = app.globalData.APIUrl,
         url = app.globalData.url

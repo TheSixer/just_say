@@ -12,8 +12,8 @@ Page({
       key: 'info',
       success: function(res){
         if(res.data) {
+          app.globalData.openId = res.data.openid
           that.getStorage()
-          that.getUserInfo()
         } else {
           that.login()
         }
@@ -136,23 +136,6 @@ Page({
       url: APIUrl
     })
 
-    // that.checkOpenId()
-
-    wx.downloadFile({
-      url: 'https://www.speakfan.net/wa/service/resource?file=scene-_1024957', //仅为示例，并非真实的资源
-      success: function(res) {
-        console.log(res)
-        wx.playVoice({
-          filePath: res.tempFilePath,
-          success:function(res) {
-            console.log(res)
-          },
-          fail:function(res) {
-            console.log(res)
-          }
-        })
-      }
-    })
     that.checkOpenId()
   },
   onReady:function(){

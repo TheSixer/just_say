@@ -1,10 +1,10 @@
 <view class="page">
-    <view class="content">
+    <scroll-view class="content" scroll-y="true" scroll-into-view="10">
         <view class="li" wx:for="{{arr}}" wx:key="words">
             <view class="en">{{item.text_en}}</view>
             <view class="ch">{{item.text_ch}}</view>
         </view>
-    </view>
+    </scroll-view>
 
 
     <view class="btn-group">

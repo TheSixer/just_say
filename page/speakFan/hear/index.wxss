@@ -9,6 +9,7 @@
     left: 0;
     padding: 30rpx 0;
     background: #F3F3F3;
+    z-index: 100;
 }
 .playTime {
     text-align: center;
@@ -31,7 +32,7 @@
 }
 .content {
     padding-top: 260rpx;
-    padding-bottom: 160rpx;
+    z-index: 10;
 }
 .li {
     padding:20rpx 0;
@@ -60,6 +61,11 @@
     color:#FFF;
     margin-top: 5rpx;
     line-height: 48rpx;
+}
+.currentIndex {
+    position: absolute;
+    top: 20rpx;
+    right: 20rpx;
 }
 .btn-group {
     position: fixed;

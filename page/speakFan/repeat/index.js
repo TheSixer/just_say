@@ -1,12 +1,23 @@
 var http = require('../../../service/request.js'),
     dealErr = require('../../../util/err_deal.js'),
+    util = require('../../../util/util.js'),
     app = getApp()
 Page({
   data: {
-    index: 0,
+    li: 0,
+    loop: false,    // 循环
     playing: false,
     currentTag: '',
-    stop: false
+    stop: false,
+    playTime: '00:00:00',
+    mao: 4
+  },
+  goHash (e) {
+      let hash = e.currentTarget.dataset.hash
+      console.log(hash)
+      this.setData({
+          mao: hash
+      })
   },
   doubleClick: function (e) {
     var that = this
@@ -14,22 +25,25 @@ Page({
     var curTime = e.timeStamp
     //上一次触摸距离页面打开时间毫秒数
     var lastTime = this.data.lastTapDiffTime
-
+    console.log(e)
     if(lastTime > 0) {
       //如果两次单击间隔小于300毫秒，认为是双击
       if(curTime - lastTime < 300) {
         //双击
-        if(that.data.currentTag == e.currentTarget.id) {
+        if(that.data.currentTag == e.currentTarget.dataset.id) {
           that.setData({
+            loop: false,
             currentTag: ''
           })
         } else {
           that.setData({
-            currentTag: e.currentTarget.id
+            loop: true,
+            li: parseInt(e.currentTarget.dataset.id),
+            currentTag: e.currentTarget.dataset.id
           })
+          that.play()
+          that.afterStop()
         }
-        console.log(e)
-        console.log(e.timeStamp + '- double tap')
       } else {
         console.log(e.timeStamp + '- tap')
       }
@@ -45,26 +59,62 @@ Page({
     var that = this
     
     wx.playBackgroundAudio({
-      dataUrl: that.data.arr[that.data.index].mp3,
+      dataUrl: that.data.arr[that.data.li].mp3,
       complete: function (res) {
         that.setData({
           playing: true
         })
+        that._enableInterval()
       }
     })
-    // this._enableInterval()
     app.globalData.backgroundAudioPlaying = true
+  },
+  // seek: function (e) {
+  //   clearInterval(this.updateInterval)
+  //   var that = this
+  //   wx.seekBackgroundAudio({
+  //     position: e.detail.value,
+  //     complete: function () {
+  //       // 实际会延迟两秒左右才跳过去
+  //       setTimeout(function () {
+  //         that._enableInterval()
+  //       }, 2000)
+  //     }
+  //   })
+  // },
+  pause: function () {
+    var that = this
+    wx.pauseBackgroundAudio({
+      dataUrl: that.data.arr[that.data.li].mp3,
+      success: function () {
+        that.setData({
+          playing: false
+        })
+      }
+    })
+    app.globalData.backgroundAudioPlaying = false
   },
   afterStop: function() {
     var that = this
+
+    clearInterval(this.updateInterval)
+    
     wx.onBackgroundAudioStop(function() {
+      if(!that.data.loop) {
+        that.setData({
+          li: that.data.li + 1
+        })
+      }
       that.setData({
         playing: false,
-        index: that.data.index + 1
+        playTime: util.formatTime(0)
       })
+      
       app.globalData.backgroundAudioPlaying = false
-      console.log(that.data.stop)
-      if(that.data.index >= that.data.max || that.data.stop) {
+      
+      if(that.data.li == that.data.max) {
+        app.gloable.studyProgramOfLisen = num
+      } else if(that.data.stop) {
         
       } else {
         that.updateTimeout = setTimeout(function(){
@@ -78,17 +128,25 @@ Page({
   _enableInterval: function () {
     var that = this
     update()
-    this.updateInterval = setInterval(update, 500)
+    if(!that.data.stop) {
+      this.updateInterval = setInterval(update, 500)
+    } else {
+      clearInterval(this.updateInterval)
+    }
     function update() {
       wx.getBackgroundAudioPlayerState({
         success: function (res) {
           if(that.data.stop) {
             //已经退出页面，停止当前的播放
-            wx.stopBackgroundAudio()
+            that.setData({
+              stop: true
+            })
           }
-          that.setData({
-            playTime: res.currentPosition
-          })
+          if(that.data.playing) {
+            that.setData({
+              playTime: util.formatTime(res.currentPosition)
+            })
+          }
         }
       })
     }
@@ -101,7 +159,7 @@ Page({
     http._get(url, data,
       function(res) {
         dealErr.dealErr(res, function() {
-          for(var x in res.data)
+          for(var x = 0; x < res.data.length; x++)
             res.data[x].index = x
 
           that.setData({
@@ -118,6 +176,16 @@ Page({
   onLoad:function(options){
     // 页面初始化 options为页面跳转所带来的参数
     var that = this
+
+    wx.getSystemInfo( {
+      success: ( res ) => {
+        this.setData( {
+          windowHeight: res.windowHeight - 140,
+          windowWidth: res.windowWidth
+        })
+      }
+    })
+
     that.audioCtx = wx.createAudioContext('myAudio')
     var api = app.globalData.APIUrl,
         url = app.globalData.url
@@ -141,16 +209,19 @@ Page({
   },
   onShow:function(){
     // 页面显示
+    this.setData({
+      stop: false
+    })
   },
   onHide:function(){
     // 页面隐藏
   },
   onUnload:function(){
     // 页面关闭
+
     this.setData({
       stop: true
     })
-    wx.stopBackgroundAudio()
     clearTimeout(this.updateTimeout)
     clearInterval(this.updateInterval)
   }
