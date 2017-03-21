@@ -2,14 +2,14 @@
     <view class="playBlock">
         <view class="playTime">{{playTime}}</view>
         <view class="page-body-buttons">
-            <block wx:if="{{playing === true}}">
+            <block wx:if="{{playing === true && recording === false && recordPlaying === false}}">
                 <view class="page-body-button" bindtap="pause">
                     <view class="btn">
                         <image src="/image/pause.png"></image>
                     </view>
                 </view>
             </block>
-            <block wx:if="{{playing === false}}">
+            <block wx:if="{{playing === false && recording === false && recordPlaying === false}}">
                 <view class="page-body-button"></view>
                 <view class="page-body-button" bindtap="play">
                     <view class="btn">
@@ -17,11 +17,73 @@
                     </view>
                 </view>
             </block>
-            <view class="page-body-button"></view>
+
+            
+            <block wx:if="{{recording === false && recordPlaying === false && hasRecord === false}}">
+              <view class="page-body-time">
+                <text class="time-big">{{formatedRecordTime}}</text>
+              </view>
+              <view class="page-body-buttons">
+                <view class="page-body-button"></view>
+                <view class="page-body-button" bindtap="startRecord">
+                  <image src="/image/record.png"></image>
+                </view>
+                <view class="page-body-button"></view>
+              </view>
+            </block>
+
+            <block wx:if="{{recording === true}}">
+              <view class="page-body-time">
+                <text class="time-big">{{formatedRecordTime}}</text>
+              </view>
+              <view class="page-body-buttons">
+                <view class="page-body-button"></view>
+                <view class="page-body-button" bindtap="stopRecord">
+                  <view class="button-stop-record"></view>
+                </view>
+                <view class="page-body-button"></view>
+              </view>
+            </block>
+
+            <block wx:if="{{hasRecord === true && recordPlaying === false}}">
+              <view class="page-body-time">
+                <text class="time-big">{{formatedPlayTime}}</text>
+                <text class="time-small">{{formatedRecordTime}}</text>
+              </view>
+              <view class="page-body-buttons">
+                <view class="page-body-button"></view>
+                <view class="page-body-button" bindtap="playVoice">
+                  <image src="/image/play.png"></image>
+                </view>
+                <!--<view class="page-body-button" bindtap="clear">
+                  <image src="/image/trash.png"></image>
+                </view>-->
+              </view>
+            </block>
+
+            <block wx:if="{{hasRecord === true && recordPlaying === true}}">
+              <view class="page-body-time">
+                <text class="time-big">{{formatedPlayTime}}</text>
+                <text class="time-small">{{formatedRecordTime}}</text>
+              </view>
+              <view class="page-body-buttons">
+                <!--<view class="page-body-button" bindtap="stopVoice">
+                  <image src="/image/stop.png"></image>
+                </view>-->
+                 <view class="page-body-button" bindtap="pauseVoice">
+                  <image src="/image/pause.png"></image>
+                </view> 
+                <!--<view class="page-body-button" bindtap="clear">
+                  <image src="/image/trash.png"></image>
+                </view>-->
+              </view>
+            </block>
         </view>
         <button data-hash="hash{{li}}" bindtap="goHash" class="currentIndex" size="mini">{{li + 1}}</button>
+
     </view>
     <scroll-view scroll-y="true" scroll-into-view="{{mao}}" style="height: {{windowHeight}}px" class="content">
+      
         <view id="hash{{item.index}}" data-id="{{item.index}}" class="li" wx:for="{{arr}}" wx:key="words" bindtap="doubleClick">
             <view data-index="{{item.index}}">
                 <view class="en">

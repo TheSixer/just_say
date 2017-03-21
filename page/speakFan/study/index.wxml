@@ -1,7 +1,7 @@
 <view class="page">
     <scroll-view class="content" scroll-y="true" scroll-into-view="10">
         <view class="li" wx:for="{{arr}}" wx:key="words">
-            <view class="en">{{item.text_en}}</view>
+            <view class="en">{{index + 1}}.{{item.text_en}}</view>
             <view class="ch">{{item.text_ch}}</view>
         </view>
     </scroll-view>

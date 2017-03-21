@@ -7,7 +7,7 @@ Page({
     li: 0,
     loop: false,    // 循环
     playing: false,
-    currentTag: '',
+    currentTag: 'a',
     stop: false,
     playTime: '00:00:00',
     mao: 4
@@ -33,7 +33,7 @@ Page({
         if(that.data.currentTag == e.currentTarget.dataset.id) {
           that.setData({
             loop: false,
-            currentTag: ''
+            currentTag: 'a'
           })
         } else {
           that.setData({
@@ -113,7 +113,7 @@ Page({
       app.globalData.backgroundAudioPlaying = false
       
       if(that.data.li == that.data.max) {
-        app.gloable.studyProgramOfLisen = num
+        app.gloable.studyProgramOfLisen = that.data.num
       } else if(that.data.stop) {
         
       } else {
