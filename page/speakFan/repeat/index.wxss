@@ -5,7 +5,7 @@
     display: block;
     width: 100%;
     position: fixed;
-    top: 0;
+    bottom: 0;
     left: 0;
     padding: 30rpx 0;
     background: #F3F3F3;
@@ -31,7 +31,7 @@
     height: 100rpx;
 }
 .content {
-    padding-top: 260rpx;
+    padding-bottom: 260rpx;
     z-index: 10;
 }
 .li {
@@ -80,12 +80,11 @@
     width: 50%;
     text-align: center;
 }
-
 .button-stop-record {
-  width: 110rpx;
-  height: 110rpx;
-  border: 20rpx solid #fff;
+  width: 70rpx;
+  height: 70rpx;
+  border: 15rpx solid #fff;
   background-color: #f55c23;
-  border-radius: 130rpx;
-  margin: 0 auto;
+  border-radius: 50rpx;
+  margin: 1rpx auto 0;
 }

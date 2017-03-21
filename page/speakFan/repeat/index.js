@@ -4,9 +4,9 @@ var http = require('../../../service/request.js'),
     app = getApp()
 var playTimeInterval
 var recordTimeInterval
+var updateInterval
 var recordTimeout
 var voiceTimeout
-var updateInterval
 var updateTimeout
 Page({
   data: {
@@ -18,13 +18,13 @@ Page({
     playTime: '00:00:00',
     mao: 0,
 
+    once: true,
     recording: false,
     recordPlaying: false,
     hasRecord: false,
     recordTime: 0,
     recordPlayTime: 0,
-    formatedRecordTime: '00:00:00',
-    formatedPlayTime: '00:00:00'
+    active: false, //主动停止录音
   },
   goHash (e) {
       let hash = e.currentTarget.dataset.hash
@@ -49,7 +49,20 @@ Page({
             loop: false,
             currentTag: 'a'
           })
+        } else if(that.data.li == e.currentTarget.dataset.id) {
+          that.setData({
+            loop: true,
+            li: parseInt(e.currentTarget.dataset.id),
+            currentTag: e.currentTarget.dataset.id
+          })
         } else {
+          clearInterval(recordTimeInterval)
+          clearInterval(playTimeInterval)
+          clearInterval(updateInterval)
+          clearTimeout(recordTimeout)
+          clearTimeout(voiceTimeout)
+          clearTimeout(updateTimeout)
+
           that.setData({
             loop: true,
             li: parseInt(e.currentTarget.dataset.id),
@@ -97,6 +110,7 @@ Page({
   //   })
   // },
   pause: function () {
+    console.log('pause play')
     var that = this
     wx.pauseBackgroundAudio({
       dataUrl: that.data.arr[that.data.li].mp3,
@@ -104,6 +118,13 @@ Page({
         that.setData({
           playing: false
         })
+        console.log('playing false')
+      },
+      fail: function() {
+        console.log('playing fail')
+      },
+      complete: function() {
+        console.log('playing complete')
       }
     })
     app.globalData.backgroundAudioPlaying = false
@@ -115,12 +136,6 @@ Page({
     clearTimeout(updateTimeout)
     
     wx.onBackgroundAudioStop(function() {
-      
-      that.setData({
-        playing: false,
-        playTime: util.formatTime(0)
-      })
-      
       app.globalData.backgroundAudioPlaying = false
       
       //开始录音
@@ -163,7 +178,7 @@ Page({
           }
           if(res.duration) {
             that.setData({
-              duration: res.duration + 2
+              duration: res.duration + 4
             })
           }
           if(that.data.playing) {
@@ -198,49 +213,61 @@ Page({
       })
   },
   startRecord: function () {
-    this.setData({ recording: true })
-
     var that = this
+          
+    that.setData({
+      playing: false,
+      playTime: util.formatTime(0),
+      recording: true
+    })
+
     recordTimeInterval = setInterval(function () {
       var recordTime = that.data.recordTime += 1
       that.setData({
-        formatedRecordTime: util.formatTime(that.data.recordTime),
+        playTime: util.formatTime(that.data.recordTime),
         recordTime: recordTime
       })
     }, 1000)
 
     wx.startRecord({
       success: function (res) {
-        console.log(res.tempFilePath)
-        that.setData({
-          hasRecord: true,
-          formatedPlayTime: util.formatTime(that.data.recordPlayTime)
-        })
-
-        //播放录音
-        that.playVoice(res.tempFilePath)
-
-      },
-      complete: function () {
-        that.setData({ recording: false })
-        clearInterval(recordTimeInterval)
-      }
-    })
-  },
-  stopRecord: function() {
-    var that = this
-    wx.stopRecord({
-      success: function() {
-        console.log('stop record success')
+        console.log('record success')
         clearInterval(recordTimeInterval)
         clearTimeout(recordTimeout)
 
         that.setData({
           recording: false,
-          hasRecord: false,
+          hasRecord: true,
           recordTime: 0,
-          formatedRecordTime: util.formatTime(0)
+          tempFilePath: res.tempFilePath,
+          playTime: util.formatTime(0)
         })
+        //主动停止录音，不播放录音
+        if(!that.data.active) {
+          //播放录音
+          that.playVoice()
+        } else {
+          that.setData({
+            active: false
+          })
+        }
+      }
+    })
+  },
+  stopRecord: function(e) {
+    console.log(e)
+    if(e) {
+      this.setData({
+        active: true
+      })
+    }
+    //停止录音，结束到时停止录音callback
+    clearTimeout(recordTimeout)
+    clearInterval(recordTimeInterval)
+
+    wx.stopRecord({
+      success: function() {
+        console.log('stop record')
       }
     })
   },
@@ -254,13 +281,14 @@ Page({
           recording: false,
           hasRecord: false,
           recordTime: 0,
-          formatedRecordTime: util.formatTime(0)
+          playTime: util.formatTime(0)
         })
       }
     })
   },
-  playVoice: function (tempFilePath) {
+  playVoice: function () {
     var that = this
+
     that.setData({
       recordPlaying: true
     })
@@ -269,18 +297,32 @@ Page({
       var recordPlayTime = that.data.recordPlayTime + 1
       console.log('update recordPlayTime', recordPlayTime)
       that.setData({
-        formatedPlayTime: util.formatTime(recordPlayTime),
+        playTime: util.formatTime(recordPlayTime),
         recordPlayTime: recordPlayTime
       })
     }, 1000)
 
     wx.playVoice({
-      filePath: tempFilePath,
+      filePath: that.data.tempFilePath,
       success: function () {
-        console.log('play voice success')
-        voiceTimeout = setTimeout(function() {
-          that.stopVoice()
-        }, that.data.duration*1000)
+        clearInterval(playTimeInterval)
+        var playTime = 0
+        that.setData({
+          recordPlaying: false,
+          playTime: util.formatTime(playTime)
+        })
+        
+        that.clear()
+        that.checkLoop  ()    
+        // voiceTimeout = setTimeout(function() {
+        //   that.stopVoice()
+        // }, that.data.duration*1000)
+      },
+      fail: function() {
+        console.log('play voice fail')
+      },
+      complete: function() {
+        console.log('play voice complete')
       }
     })
   },
@@ -298,18 +340,23 @@ Page({
 
     this.setData({
       recordPlaying: false,
-      formatedPlayTime: util.formatTime(0),
+      playTime: util.formatTime(0),
       recordPlayTime: 0
     })
     wx.stopVoice()
-
-    that.checkLoop()    
+    that.clear()
+    that.checkLoop  ()    
   },
   checkLoop: function() {
     var that = this
-    if(!that.data.loop && !that.data.noce) {
+    if(that.data.loop || that.data.once) {
       that.setData({
-        li: that.data.li + 1
+        once: false
+      })
+    } else {
+      that.setData({
+        li: that.data.li + 1,
+        once: true
       })
     }
 
@@ -326,12 +373,13 @@ Page({
   },
   clear: function () {
     clearInterval(playTimeInterval)
+    clearInterval(recordTimeInterval)
     wx.stopRecord()
     this.setData({
       recordPlaying: false,
       hasRecord: false,
       tempFilePath: '',
-      formatedRecordTime: util.formatTime(0),
+      playTime: util.formatTime(0),
       recordTime: 0,
       recordPlayTime: 0
     })
