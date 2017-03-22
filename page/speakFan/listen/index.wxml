@@ -1,0 +1,40 @@
+<view class="page">
+    <block wx:for="{{arr}}" wx:key="words">
+        <audio hidden poster="{{poster}}" name="精选美语一级" author="例句 {{index + 1}}" src="{{item.mp3}}" id="myAudio{{index}}" bindended="stop" bindtimeupdate="timeupdate"></audio>
+    </block>   
+
+    <view class="playBlock">
+        <view class="playTime">{{playTime}}</view>
+        <view class="page-body-buttons">
+            <block wx:if="{{playing === true}}">
+                <view class="page-body-button" bindtap="pause">
+                    <view class="btn">
+                        <image src="/image/pause.png"></image>
+                    </view>
+                </view>
+            </block>
+            <block wx:if="{{playing === false}}">
+                <view class="page-body-button"></view>
+                <view class="page-body-button" bindtap="play">
+                    <view class="btn">
+                        <image src="/image/play.png"></image>
+                    </view>
+                </view>
+            </block>
+            <view class="page-body-button"></view>
+        </view>
+        <button data-hash="hash{{li}}" bindtap="goHash" class="currentIndex" size="mini">{{li + 1}}</button>
+    </view>
+    <scroll-view scroll-y="true" scroll-into-view="{{mao}}" style="height: {{windowHeight}}px" class="content">
+        <view id="hash{{item.index}}" data-id="{{item.index}}" class="li" wx:for="{{arr}}" wx:key="words" bindtap="doubleClick">
+            <view data-index="{{item.index}}">
+                <view class="en">
+                    <image hidden="{{item.index != li}}" class="playing" mode="aspectFit" src="/image/playing.jpg"></image>
+                {{index + 1}}. {{item.text_en}}
+                </view>
+                <view class="ch"> {{item.text_ch}}</view>
+                <view hidden="{{item.index != currentTag}}" class="words">{{item.words}}</view>
+            </view>
+        </view>
+    </scroll-view>
+</view>

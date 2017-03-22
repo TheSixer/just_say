@@ -8,10 +8,10 @@
 
 
     <view class="btn-group">
-        <navigator class="nav" url="../hear/index?index={{index}}">
+        <navigator class="nav" url="../listen/index?index={{index}}">
             <button type="primary" size="mini">听力</button>
         </navigator>
-        <navigator class="nav" url="../repeat/index?index={{index}}">
+        <navigator class="nav" url="../speak/index?index={{index}}">
             <button type="primary" size="mini">跟读</button>
         </navigator>
     </view>

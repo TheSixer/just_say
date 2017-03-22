@@ -1,4 +1,8 @@
 <view class="page">
+    <block wx:for="{{arr}}" wx:key="words">
+        <audio hidden poster="{{poster}}" name="精选美语一级" author="例句 {{index + 1}}" src="{{item.mp3}}" id="myAudio{{index}}" bindended="stop" bindtimeupdate="timeupdate"></audio>
+    </block>   
+    
     <view class="playBlock">
         <view class="playTime">{{playTime}}</view>
         <view class="page-body-buttons">

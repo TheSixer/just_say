@@ -4,7 +4,9 @@
     "page/speakFan/index",
     "page/speakFan/study/index",
     "page/speakFan/hear/index",
+    "page/speakFan/listen/index",
     "page/speakFan/repeat/index",
+    "page/speakFan/speak/index",
     "page/order/index"
   ],
   "window": {

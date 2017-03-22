@@ -1,0 +1,90 @@
+.page {
+    background: #000;
+}
+.playBlock {
+    display: block;
+    width: 100%;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    padding: 30rpx 0;
+    background: #F3F3F3;
+    z-index: 100;
+}
+.playTime {
+    text-align: center;
+}
+.page-body-button {
+    margin: 0;
+    text-align: center;
+}
+.btn {
+    display: inline-block;
+    padding: 20rpx;
+    border-radius: 70rpx;
+}
+.status {
+    display: inline-block;
+}
+.btn image {
+    width: 100rpx;
+    height: 100rpx;
+}
+.content {
+    padding-bottom: 260rpx;
+    z-index: 10;
+}
+.li {
+    padding:20rpx 0;
+    margin:0 30rpx;
+    background: #000;
+    border-bottom: 1rpx solid #DDD;
+}
+.li:last-child {
+    border-bottom: none;
+}
+.playing {
+    width: 30rpx;
+    height: 30rpx;
+}
+.en {
+    color:#FFF;
+    line-height: 40rpx;
+}
+.ch {
+    color:#FFF;
+    margin-top: 5rpx;
+    line-height: 48rpx;
+    text-indent: 20rpx;
+}
+.words {
+    color:#FFF;
+    margin-top: 5rpx;
+    line-height: 48rpx;
+}
+.currentIndex {
+    position: absolute;
+    top: 20rpx;
+    right: 20rpx;
+}
+.btn-group {
+    position: fixed;
+    width: 100%;
+    padding: 20rpx 0;
+    left: 0;
+    bottom: 0;
+    background: #FFF;
+}
+.btn-group .nav {
+    display: inline-block;
+    width: 50%;
+    text-align: center;
+}
+.button-stop-record {
+  width: 70rpx;
+  height: 70rpx;
+  border: 15rpx solid #fff;
+  background-color: #f55c23;
+  border-radius: 50rpx;
+  margin: 1rpx auto 0;
+}

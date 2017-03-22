@@ -1,7 +1,9 @@
 var http = require('../../../service/request.js'),
     dealErr = require('../../../util/err_deal.js'),
     util = require('../../../util/util.js'),
-    app = getApp()
+    app = getApp(),
+    updateTimeout,
+    updateInterval
 Page({
   data: {
     li: 0,
@@ -10,7 +12,10 @@ Page({
     currentTag: 'a',
     stop: false,
     playTime: '00:00:00',
-    mao: 4
+    mao: 4,
+
+    poster: 'http://y.gtimg.cn/music/photo_new/T002R300x300M000003rsKF44GyaSk.jpg?max_age=2592000',
+    src: ''
   },
   goHash (e) {
       let hash = e.currentTarget.dataset.hash
@@ -25,7 +30,7 @@ Page({
     var curTime = e.timeStamp
     //上一次触摸距离页面打开时间毫秒数
     var lastTime = this.data.lastTapDiffTime
-    console.log(e)
+
     if(lastTime > 0) {
       //如果两次单击间隔小于300毫秒，认为是双击
       if(curTime - lastTime < 300) {
@@ -41,8 +46,9 @@ Page({
             li: parseInt(e.currentTarget.dataset.id),
             currentTag: e.currentTarget.dataset.id
           })
+          that.audioCtx.seek(0)
+          that.audioCtx.pause()
           that.play()
-          that.afterStop()
         }
       } else {
         console.log(e.timeStamp + '- tap')
@@ -55,96 +61,93 @@ Page({
       lastTapDiffTime: curTime
     })
   },
-  play: function (res) {
+  play: function () {
     var that = this
-    
-    wx.playBackgroundAudio({
-      dataUrl: that.data.arr[that.data.li].mp3,
-      complete: function (res) {
-        that.setData({
-          playing: true
-        })
-        that._enableInterval()
-      }
+    //清除Timeout
+    clearTimeout(updateTimeout)
+
+    // 使用 wx.createAudioContext 获取 audio 上下文 context
+    that.audioCtx = wx.createAudioContext('myAudio' + that.data.li)
+
+    that.audioCtx.play()
+
+    that.setData({
+      playing: true
     })
-    app.globalData.backgroundAudioPlaying = true
+    app.globalData.audioPlaying = true
   },
-  // seek: function (e) {
-  //   clearInterval(this.updateInterval)
-  //   var that = this
-  //   wx.seekBackgroundAudio({
-  //     position: e.detail.value,
-  //     complete: function () {
-  //       // 实际会延迟两秒左右才跳过去
-  //       setTimeout(function () {
-  //         that._enableInterval()
-  //       }, 2000)
-  //     }
-  //   })
-  // },
+  timeupdate: function(e) {
+    var that = this
+    var p = parseInt(e.detail.currentTime)
+    var rp = parseInt(e.detail.currentTime)
+    
+    if(rp > that.data.rp + 2) {
+
+    } else {
+      this.setData({
+        playTime: util.formatTime(p)
+      })      
+    }
+
+    that.setData({
+      rp: rp
+    })
+  },
   pause: function () {
     var that = this
-    wx.pauseBackgroundAudio()
+
+    that.audioCtx.pause()
     that.setData({
       playing: false
     })
-    app.globalData.backgroundAudioPlaying = false
   },
-  afterStop: function() {
+  stop: function() {
     var that = this
 
-    clearInterval(this.updateInterval)
-    
-    wx.onBackgroundAudioStop(function() {
-      if(!that.data.loop) {
-        that.setData({
-          li: that.data.li + 1
-        })
-      }
+    if(!that.data.loop) {
       that.setData({
-        playing: false,
-        playTime: util.formatTime(0)
+        li: that.data.li + 1
       })
-      
-      app.globalData.backgroundAudioPlaying = false
-      
-      if(that.data.li == that.data.max) {
-        app.gloable.studyProgramOfLisen = that.data.num
-      } else if(that.data.stop) {
-        
-      } else {
-        that.updateTimeout = setTimeout(function(){
-          that.play()
-          that.afterStop()
-        }, 2000)
-      }
-        
-    })
-  },
-  _enableInterval: function () {
-    var that = this
-    update()
-    if(!that.data.stop) {
-      this.updateInterval = setInterval(update, 500)
-    } else {
-      clearInterval(this.updateInterval)
     }
-    function update() {
-      wx.getBackgroundAudioPlayerState({
-        success: function (res) {
-          if(that.data.stop) {
-            //已经退出页面，停止当前的播放
-            that.setData({
-              stop: true
-            })
+    that.setData({
+      playing: false,
+      playTime: util.formatTime(0)
+    })
+    
+
+    app.globalData.audioPlaying = false
+    console.log(that.data.li + ' - ' + that.data.max)
+    if(that.data.li == that.data.max) {
+      app.globalData.studyProgramOfLisen = true
+      if(app.blobalData.studyProgramOfSpeak) {
+        wx.showModal({
+          title: '提示',
+          cancelText: '留在听力',
+          content: '当前课程已学完，是否学习下一单元？',
+          success: function(res) {
+            if (res.confirm) {
+              
+            }
           }
-          if(that.data.playing) {
-            that.setData({
-              playTime: util.formatTime(res.currentPosition)
-            })
+        })  
+      } else {
+        wx.showModal({
+          title: '提示',
+          cancelText: '留在听力',
+          content: '完成听力练习，前往跟读练习？',
+          success: function(res) {
+            if (res.confirm) {
+              
+            }
           }
-        }
-      })
+        })  
+      }
+    } else if(that.data.stop) {
+      
+    } else {
+      updateTimeout = setTimeout(function(){
+        that.play()
+      }, 2000)
     }
   },
   getCourse: function() {
@@ -154,6 +157,7 @@ Page({
 
     http._get(url, data,
       function(res) {
+        dealErr.hideToast()
         dealErr.dealErr(res, function() {
           for(var x = 0; x < res.data.length; x++)
             res.data[x].index = x
@@ -162,16 +166,17 @@ Page({
             arr: res.data,
             max: res.data.length
           })
-          that.play()
-          that.afterStop()
         })
       }, function(res) {
+        dealErr.hideToast()
         dealErr.fail()
       })
   },
   onLoad:function(options){
     // 页面初始化 options为页面跳转所带来的参数
     var that = this
+
+    dealErr.loading()
 
     wx.getSystemInfo( {
       success: ( res ) => {
@@ -182,7 +187,6 @@ Page({
       }
     })
 
-    that.audioCtx = wx.createAudioContext('myAudio')
     var api = app.globalData.APIUrl,
         url = app.globalData.url
 
@@ -194,11 +198,6 @@ Page({
 
     that.getCourse()
 
-    if (app.globalData.backgroundAudioPlaying) {
-      this.setData({
-        playing: true
-      })
-    }
   },
   onReady:function(){
     // 页面渲染完成
@@ -208,6 +207,7 @@ Page({
     this.setData({
       stop: false
     })
+    this.getCourse()
   },
   onHide:function(){
     // 页面隐藏
@@ -218,7 +218,6 @@ Page({
     this.setData({
       stop: true
     })
-    clearTimeout(this.updateTimeout)
-    clearInterval(this.updateInterval)
+    clearTimeout(updateTimeout)
   }
 })
