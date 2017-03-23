@@ -15,7 +15,8 @@ Page({
     mao: 4,
 
     poster: 'http://y.gtimg.cn/music/photo_new/T002R300x300M000003rsKF44GyaSk.jpg?max_age=2592000',
-    src: ''
+    src: '',
+    last: false
   },
   goHash (e) {
       let hash = e.currentTarget.dataset.hash
@@ -105,9 +106,15 @@ Page({
     var that = this
 
     if(!that.data.loop) {
-      that.setData({
-        li: that.data.li + 1
-      })
+      if(that.data.li + 1 == that.data.max) {
+        that.setData({
+          li: 0
+        })
+      } else {
+        that.setData({
+          li: that.data.li + 1
+        })
+      }
     }
     that.setData({
       playing: false,
@@ -117,27 +124,41 @@ Page({
 
     app.globalData.audioPlaying = false
     console.log(that.data.li + ' - ' + that.data.max)
-    if(that.data.li == that.data.max) {
+    if(that.data.li == 0 && !that.data.loop) {
       app.globalData.studyProgramOfLisen = true
-      if(app.blobalData.studyProgramOfSpeak) {
+      if(app.globalData.studyProgramOfSpeak) {
         wx.showModal({
           title: '提示',
           cancelText: '留在听力',
-          content: '当前课程已学完，是否学习下一单元？',
+          cancelColor: '#999',
+          content: '本单元已学完，是否前往学习下一单元？',
           success: function(res) {
             if (res.confirm) {
-              
+              wx.switchTab({
+                url: '/page/speakFan/index'
+              })
             }
+            //重置
+            app.globalData.studyProgramOfLisen = false
+            app.globalData.studyProgramOfSpeak = false
+
+            wx.setStorage({
+              key: 'studyProgram',
+              data: that.data.num
+            })
           }
         })  
       } else {
         wx.showModal({
           title: '提示',
           cancelText: '留在听力',
-          content: '完成听力练习，前往跟读练习？',
+          cancelColor: '#999',
+          content: '已完成听力练习，前往跟读练习？',
           success: function(res) {
             if (res.confirm) {
-              
+              wx.redirectTo({
+                url: '../speak/index?index=' + that.data.num
+              })
             }
           }
         })  
@@ -177,6 +198,8 @@ Page({
     var that = this
 
     dealErr.loading()
+
+    that.audioCtx = wx.createAudioContext('myAudio0')
 
     wx.getSystemInfo( {
       success: ( res ) => {

@@ -281,14 +281,61 @@ Page({
         once: false
       })
     } else {
-      that.setData({
-        li: that.data.li + 1,
-        once: true
-      })
+      if(that.data.li + 1 == that.data.max) {
+        that.setData({
+          li: 0
+        })
+      } else {
+        that.setData({
+          li: that.data.li + 1,
+          once: true
+        })
+      }
     }
 
-    if(that.data.li == that.data.max) {
-      app.gloable.studyProgramOfRepeat = that.data.num
+    if(that.data.li == 0 && !that.data.loop && !that.data.once) {
+      app.globalData.studyProgramOfSpeak = true
+      if(app.globalData.studyProgramOfLisen) {
+        wx.showModal({
+          title: '提示',
+          cancelText: '留在当前',
+          cancelColor: '#999',
+          content: '本单元已学完，是否前往学习下一单元？',
+          success: function(res) {
+            if (res.confirm) {
+              wx.switchTab({
+                url: '/page/speakFan/index'
+              })
+            }
+            //重置
+            app.globalData.studyProgramOfLisen = false
+            app.globalData.studyProgramOfSpeak = false
+
+            wx.setStorage({
+              key: 'studyProgram',
+              data: that.data.num
+            })
+          }
+        })  
+      } else {
+        wx.showModal({
+          title: '提示',
+          cancelText: '留在当前',
+          cancelColor: '#999',
+          content: '已完成跟读练习，还未完成听力练习，立即前往？',
+          success: function(res) {
+            if (res.confirm) {
+              wx.redirectTo({
+                url: '../listen/index?index=' + that.data.num
+              })
+            } else {
+              that.setData({
+                once: true
+              })
+            }
+          }
+        })  
+      }
     } else if(that.data.stop) {
       
     } else {

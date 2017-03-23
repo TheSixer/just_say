@@ -1,9 +1,12 @@
 var http = require('../../service/request.js'),
     dealErr = require('../../util/err_deal.js'),
+    util = require('../../util/util.js'),
     app = getApp()
 Page({
   data:{
     index: 0,
+    array:[],
+    hasOrder: false,
     isLoading: false    //是否请求中
   },
   toStudy: function() {
@@ -28,11 +31,78 @@ Page({
     http._get( url, data,
       function( res ) {
         dealErr.dealErr(res, function() {
-          console.log(res.data)
+          if(res.data.length === 0) {
+            that.setData({
+              hasOrder: false
+            })
+          } else {
+            var expire = parseInt(res.data[0].expire)
+            res.data[0].expire = util.format(new Date(expire*1000))
+
+            that.setData({
+              hasOrder: true,
+              order: res.data[0]
+            })
+            wx.setStorage({
+              key: 'orderInfo',
+              data: res.data[0]
+            })
+          }
         })
       }, function( res ) {
         dealErr.fail()
       });
+  },
+  checkOrderInfo: function() {
+    var that = this
+    wx.getStorage({
+      key: 'orderInfo',
+      success: function(res){
+        // success
+        that.setData({
+          hasOrder: true,
+          order: res.data
+        })
+      },
+      fail: function() {
+        that.getOrderInfo()
+      }
+    })
+  },
+  getStudyRecord: function() {
+    var that = this
+    wx.getStorage({
+      key: 'studyProgram',
+      success: function(res){
+        // success
+        console.log(res.data)
+        that.setData({
+          hasBegin: true,
+          hasOrder: true,
+          current: res.data
+        })
+        var arr = []
+        for(var x = 0; x < res.data; x++) {
+          var obj = {
+            id: x + 1,
+            course: x + 1
+          }
+          arr.push(obj)
+        }
+        console.log(arr)
+        that.setData({
+          array: arr
+        })
+        console.log(that.data.array)
+      },
+      fail: function() {
+        that.setData({
+          hasBegin: false
+        })
+
+        that.getOrderInfo()
+      }
+    })
   },
   getUserId: function() {
     var that = this
@@ -44,7 +114,8 @@ Page({
           order: true,
           info: res.data
         })
-        that.getOrderInfo()
+        
+        that.getStudyRecord()
       },
       fail: function() {
         // fail
@@ -52,7 +123,7 @@ Page({
           order: false
         })
         var title = '提示',
-            tips = '抱歉，您还未订阅任何课程！'
+            tips = '请删除小程序，重新搜索“说说看”，打开并允许微信登录授权！'
         dealErr.showTips(title, tips, function(){})
       }
     })
@@ -69,15 +140,12 @@ Page({
       api: APIUrl
     })
 
-    that.getUserId()
-    // that.getData()
-
   },
   onReady:function(){
     // 页面渲染完成
   },
   onShow:function(){
-
+    this.getUserId()
   },
   onHide:function(){
     // 页面隐藏
