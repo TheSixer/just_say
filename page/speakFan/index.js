@@ -6,13 +6,15 @@ Page({
   data:{
     index: 0,
     array:[],
+    last: 1,
     hasOrder: false,
     isLoading: false    //是否请求中
   },
-  toStudy: function() {
+  toStudy: function(e) {
     var that = this
+    console.log(e)
     wx.navigateTo({
-      url: 'study/index?index=' + (that.data.index + 1)
+      url: 'study/index?index=' + parseInt(e.target.id)
     })
   },
   getOrderInfo: function() {
@@ -53,7 +55,7 @@ Page({
         dealErr.fail()
       });
   },
-  checkOrderInfo: function() {
+  checkOrderInfo: function() {    //验证是否已有订阅信息
     var that = this
     wx.getStorage({
       key: 'orderInfo',
@@ -91,16 +93,17 @@ Page({
         }
         console.log(arr)
         that.setData({
-          array: arr
+          array: arr,
+          last: arr.length + 1
         })
-        console.log(that.data.array)
+        that.checkOrderInfo()
       },
       fail: function() {
         that.setData({
           hasBegin: false
         })
 
-        that.getOrderInfo()
+        that.getUserId()
       }
     })
   },
@@ -115,7 +118,7 @@ Page({
           info: res.data
         })
         
-        that.getStudyRecord()
+        that.getOrderInfo()
       },
       fail: function() {
         // fail
@@ -145,7 +148,7 @@ Page({
     // 页面渲染完成
   },
   onShow:function(){
-    this.getUserId()
+    this.getStudyRecord()
   },
   onHide:function(){
     // 页面隐藏

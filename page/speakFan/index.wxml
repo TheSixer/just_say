@@ -1,5 +1,8 @@
 <view class="page">
-  <view class="body">
+  <view class="body" wx:if="{{!hasOrder}}">
+    <text>您还没有订阅记录！</text>
+  </view>
+  <view class="body" wx:if="{{hasOrder}}">
     <view class="widget" url="storeDetail/index?dealer_id={{item.dealer_id}}&location={{location}}">
       <image mode="aspectFit" class="widget_icon" src="/image/test.png"></image>
       <view class="widget_info">
@@ -17,22 +20,22 @@
       </view>
     </view>
 
-    <view class="course" wx:if="{{array}}" wx:key="id">
-      <view class="list">
+    <view class="course">
+      <view class="list" wx:for="{{array}}" wx:key="id">
         <text class="left">课<text class="bold"> {{item.course}} </text></text>
         <image class="finished" mode="aspectFit" src="/image/timg.jpg"></image>
         <view class="right">
-          <button type="primary" size="mini" class="order">再来一遍</button>
+          <button id="{{item.id}}" type="primary" size="mini" class="order" bindtap="toStudy">再来一遍</button>
         </view>
       </view>
     </view>
 
     <view class="course">
-      <view class="list">
-        <text class="left">课<text class="bold"> 1 </text></text>
+      <view class="list" style="border-bottom: none;">
+        <text class="left">课<text class="bold"> {{last}} </text></text>
         <!--<image class="finished" mode="aspectFit" src="/image/timg.jpg"></image>-->
         <view class="right">
-          <button type="primary" size="mini" class="order" bindtap="toStudy">学习</button>
+          <button id="{{last}}" type="primary" size="mini" class="order" bindtap="toStudy">学习</button>
         </view>
       </view>
     </view>
