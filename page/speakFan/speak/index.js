@@ -283,7 +283,7 @@ Page({
     } else {
       if(that.data.li + 1 == that.data.max) {
         that.setData({
-          li: 0
+          li: -1
         })
       } else {
         that.setData({
@@ -293,7 +293,7 @@ Page({
       }
     }
 
-    if(that.data.li == 0 && !that.data.loop && !that.data.once) {
+    if(that.data.li == -1 && !that.data.loop && !that.data.once) {
       app.globalData.studyProgramOfSpeak = true
       if(app.globalData.studyProgramOfLisen) {
         wx.showModal({
@@ -302,11 +302,6 @@ Page({
           cancelColor: '#999',
           content: '本单元已学完，是否前往学习下一单元？',
           success: function(res) {
-            if (res.confirm) {
-              wx.switchTab({
-                url: '/page/speakFan/index'
-              })
-            }
             //重置
             app.globalData.studyProgramOfLisen = false
             app.globalData.studyProgramOfSpeak = false
@@ -315,6 +310,16 @@ Page({
               key: 'studyProgram',
               data: that.data.num
             })
+
+            if (res.confirm) {
+              wx.switchTab({
+                url: '/page/speakFan/index'
+              })
+            } else {
+              that.setData({
+                li: 0
+              })
+            }
           }
         })  
       } else {
@@ -330,6 +335,7 @@ Page({
               })
             } else {
               that.setData({
+                li: 0,
                 once: true
               })
             }
