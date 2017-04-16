@@ -5,41 +5,70 @@ Page({
   data:{
     isLoading: false    //是否请求中
   },
-  pullUpLoad: function( e ) {
-    var isLoading = this.data.isLoading
-
-    if(!isLoading) {
-      //loading动画
-      this.loadingToast()
-
-      this.setData( {
-        page: this.data.page + 1
-      })
-      this.getData()
-    }
-      
-
-    console.log( "上拉拉加载更多...." + this.data.page )
-
-  },
-  getData: function() {//请求数据
+  order: function() {//请求数据
     var that = this;
 
     that.setData({    //正在请求。。。
       isloading: true
     })
 
-    var url = this.data.url,
+    var url = that.data.url + '/wa_unifiorder',
         data = {
-          
+          user_id: that.data.user_id,
+          order_price: 1
         }
 
     http._get( url, data,
       function( res ) {
+        dealErr.dealErr(res, function() {
+          console.log(res.data)
+          that.setData({
+            payInfo: res.data
+          })
 
+          that.payment()
+        })
       }, function( res ) {
         console.log( res );
       });
+  },
+  payment: function () {
+    var that = this
+    console.log(that.data.payInfo)
+    
+    var data = that.data.payInfo
+    data.timeStamp = String(data.timeStamp)
+
+    wx.requestPayment({
+      appId: data.appid,
+      timeStamp: data.timeStamp,
+      nonceStr: data.nonce_str,
+      'package': 'prepay_id=' + data.prepay_id,
+      signType: 'MD5',
+      paySign: data.paySign,
+      success:function(res){
+        console.log(res)
+      },
+      fail:function(res){
+        console.log(res)
+      }
+    })
+  },
+  getStorageInfo: function () {
+    var that = this
+
+    if(!that.data.user_id) {
+      wx.getStorage({
+        key: 'info',
+        success: function(res){
+          // success
+          that.setData({
+            user_id: res.data.user_id
+          })
+        }
+      })
+    }
+
   },
   onLoad:function(options){
     //进入页面显示加载动画
@@ -54,21 +83,13 @@ Page({
     })
 
     // that.getData()
-
+    that.getStorageInfo()
   },
   onReady:function(){
     // 页面渲染完成
   },
   onShow:function(){
     // 页面显示
-    // wx.getSystemInfo( {
-    //   success: ( res ) => {
-    //     this.setData( {
-    //       windowHeight: res.windowHeight,
-    //       windowWidth: res.windowWidth
-    //     })
-    //   }
-    // })
   },
   onHide:function(){
     // 页面隐藏
