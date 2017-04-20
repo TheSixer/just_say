@@ -5,6 +5,9 @@
       <view class="widget_info">
         <view class="name">
           <text>精选美语一级</text>
+          <!--<view class="km">
+            <button type="primary" size="mini" class="order">订阅</button>
+          </view>-->
         </view>
         <text class="address">总课程数：72</text>
         <text class="address">价格：50元/月</text>
@@ -23,7 +26,10 @@
         </view>
       </view>
     </view>
+
+    <view class="tips"><text>注：课时1 为免费课程，学习更多课程请订阅！</text></view>
   </view>
+
   <view class="body" wx:if="{{hasOrder}}">
     <view class="widget" url="storeDetail/index?dealer_id={{item.dealer_id}}&location={{location}}">
       <image mode="aspectFit" class="widget_icon" src="/image/test.png"></image>

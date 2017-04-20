@@ -9,10 +9,10 @@
 
     <view class="btn-group">
         <navigator class="nav" url="../listen/index?index={{index}}">
-            <button type="primary" size="mini">听力</button>
+            <button type="primary">听力</button>
         </navigator>
         <navigator class="nav" url="../speak/index?index={{index}}">
-            <button type="primary" size="mini">跟读</button>
+            <button type="warn">跟读</button>
         </navigator>
     </view>
 </view>

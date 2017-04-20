@@ -12,13 +12,15 @@ Page({
   },
   toStudy: function(e) {
     var that = this
-    console.log(e)
+    
     wx.navigateTo({
       url: 'study/index?index=' + parseInt(e.target.id)
     })
   },
   getOrderInfo: function() {
     var that = this
+
+    dealErr.loading()
 
     that.setData({    //正在请求。。。
       isloading: true
@@ -32,6 +34,7 @@ Page({
 
     http._get( url, data,
       function( res ) {
+        dealErr.hideToast()
         dealErr.dealErr(res, function() {
           if(res.data.length === 0) {
             that.setData({
@@ -67,7 +70,7 @@ Page({
         })
       },
       fail: function() {
-        that.getOrderInfo()
+        that.getUserId()
       }
     })
   },
@@ -77,10 +80,8 @@ Page({
       key: 'studyProgram',
       success: function(res){
         // success
-        console.log(res.data)
         that.setData({
           hasBegin: true,
-          hasOrder: true,
           current: res.data
         })
         var arr = []
@@ -91,7 +92,7 @@ Page({
           }
           arr.push(obj)
         }
-        console.log(arr)
+
         that.setData({
           array: arr,
           last: arr.length + 1
@@ -117,7 +118,7 @@ Page({
           order: true,
           info: res.data
         })
-        console.log(res.data)
+        
         that.getOrderInfo()
       },
       fail: function() {

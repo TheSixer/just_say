@@ -119,3 +119,8 @@
     margin: 0;
     max-width: 100%;
 }
+.tips {
+    padding: 30rpx;
+    font-size: 22rpx;
+    color: #999;
+}
