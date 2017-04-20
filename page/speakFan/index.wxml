@@ -5,9 +5,6 @@
       <view class="widget_info">
         <view class="name">
           <text>精选美语一级</text>
-          <view class="km">
-            <button type="primary" size="mini" class="order">订阅</button>
-          </view>
         </view>
         <text class="address">总课程数：72</text>
         <text class="address">价格：50元/月</text>

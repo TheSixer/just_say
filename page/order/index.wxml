@@ -6,7 +6,8 @@
         <view class="name">
           <text>精选美语一级</text>
           <view class="km">
-            <button size="mini" class="order" bindtap="order">订阅</button>
+            <button size="mini" hidden="{{hasOrder}}" class="order" bindtap="order">订阅</button>
+            <button size="mini" hidden="{{!hasOrder}}" bindtap="order">续订</button>
           </view>
         </view>
         <text class="address">总课程数：72</text>

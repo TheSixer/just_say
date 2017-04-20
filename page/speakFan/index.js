@@ -117,7 +117,7 @@ Page({
           order: true,
           info: res.data
         })
-        
+        console.log(res.data)
         that.getOrderInfo()
       },
       fail: function() {

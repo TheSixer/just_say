@@ -6,13 +6,15 @@ Page({
     isLoading: false    //是否请求中
   },
   order: function() {//请求数据
-    var that = this;
+    var that = this
+
+    dealErr.loading()
 
     that.setData({    //正在请求。。。
       isloading: true
     })
 
-    var url = that.data.url + '/wa_unifiorder',
+    var url = that.data.api + '/wa_unifiorder',
         data = {
           user_id: that.data.user_id,
           order_price: 1
@@ -21,20 +23,19 @@ Page({
     http._get( url, data,
       function( res ) {
         dealErr.dealErr(res, function() {
-          console.log(res.data)
           that.setData({
             payInfo: res.data
           })
 
+          dealErr.hideToast()
           that.payment()
         })
       }, function( res ) {
-        console.log( res );
+        dealErr.fail()
       });
   },
   payment: function () {
     var that = this
-    console.log(that.data.payInfo)
     
     var data = that.data.payInfo
     data.timeStamp = String(data.timeStamp)
@@ -48,11 +49,54 @@ Page({
       paySign: data.paySign,
       success:function(res){
         console.log(res)
+        that.getOrderInfo()
       },
       fail:function(res){
         console.log(res)
       }
     })
+  },
+  getOrderInfo: function() {
+    var that = this
+
+    dealErr.loading()
+
+    that.setData({    //正在请求。。。
+      isloading: true
+    })
+
+    var url = that.data.api + 'order',
+        data = {
+          id: 'only',
+          user_id: that.data.user_id
+        }
+
+    http._get( url, data,
+      function( res ) {
+        dealErr.hideToast()
+        dealErr.dealErr(res, function() {
+          console.log(res)
+          if(res.data.length === 0) {
+            that.setData({
+              hasOrder: false
+            })
+          } else {
+            var expire = parseInt(res.data[0].expire)
+            res.data[0].expire = util.format(new Date(expire*1000))
+
+            that.setData({
+              hasOrder: true,
+              order: res.data[0]
+            })
+            wx.setStorage({
+              key: 'orderInfo',
+              data: res.data[0]
+            })
+          }
+        })
+      }, function( res ) {
+        dealErr.fail()
+      });
   },
   getStorageInfo: function () {
     var that = this
@@ -65,6 +109,8 @@ Page({
           that.setData({
             user_id: res.data.user_id
           })
+
+          that.getOrderInfo()
         }
       })
     }
@@ -79,10 +125,9 @@ Page({
         APIUrl = app.globalData.APIUrl
 
     that.setData({
-      url: APIUrl
+      api: APIUrl
     })
 
-    // that.getData()
     that.getStorageInfo()
   },
   onReady:function(){
