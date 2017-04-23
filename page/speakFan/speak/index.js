@@ -15,7 +15,7 @@ Page({
     stop: false,
     playTime: '00:00:00',
     mao: 0,
-
+    double: false,
     first: true,
 
     once: true,
@@ -62,14 +62,63 @@ Page({
           clearTimeout(updateTimeout)
 
           that.setData({
+            hasRecord: false,
+            playing: false,
+            active: true,
+            double: true,
+            // recording: false,
+            // recordPlaying: false,
             loop: true,
             playTime: util.formatTime(0),
             li: parseInt(e.currentTarget.dataset.id),
             currentTag: e.currentTarget.dataset.id
           })
-          that.audioCtx.seek(0)
-          that.audioCtx.pause()
-          that.play()
+
+          if(that.data.recordPlaying) {
+            that.setData({
+              recordPlaying: false
+            })
+            wx.stopVoice({
+              success: function(res){
+                // success
+              },
+              fail: function(res) {
+                // fail
+              },
+              complete: function(res) {
+                // complete
+                console.log('record stoped')
+                playOthers()
+              }
+            })
+          } else if(that.data.recording) {
+            that.setData({
+              recording: false
+            })
+            wx.stopRecord({
+              success: function(res){
+                // success
+                console.log('voice stoped')
+              },
+              fail: function(res) {
+                // fail
+              },
+              complete: function(res) {
+                // complete
+                that.setData({
+                  double: false
+                })
+                playOthers()
+              }
+            })
+          }
+
+          function playOthers() {
+            that.audioCtx.seek(0) 
+            that.audioCtx.pause()
+            that.play()
+          }
+            
         }
       } else {
         console.log(e.timeStamp + '- tap')
@@ -197,6 +246,11 @@ Page({
           tempFilePath: res.tempFilePath,
           playTime: util.formatTime(0)
         })
+        if(that.data.double) {
+          that.setData({
+            hasRecord: false
+          })
+        }
         //主动停止录音，不播放录音
         if(!that.data.active) {
           //播放录音
@@ -223,15 +277,34 @@ Page({
   },
   stopRecordUnexpectedly: function () {
     var that = this
-    wx.stopRecord()
+    wx.stopRecord({
+      success: function() {
+        clearInterval(recordTimeInterval)
 
-    clearInterval(recordTimeInterval)
+        that.setData({
+          recording: false,
+          hasRecord: false,
+          recordTime: 0,
+          playTime: util.formatTime(0)
+        })
+      }
+    })
+  },
+  stopVoiceUnexpectedly: function () {
+    var that = this
 
-    that.setData({
-      recording: false,
-      hasRecord: false,
-      recordTime: 0,
-      playTime: util.formatTime(0)
+    wx.stopVoice({
+      success: function(res){
+        // success
+        clearInterval(playTimeInterval)
+
+        that.setData({
+          recordPlaying: false,
+          hasRecord: false,
+          recordPlayTime: 0,
+          playTime: util.formatTime(0)
+        })
+      }
     })
   },
   playVoice: function () {

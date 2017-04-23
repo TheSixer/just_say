@@ -33,7 +33,7 @@ Page({
     http._get(url, data, 
       function(res) {
         dealErr.dealErr(res, function() {
-          console.log(res.openid)
+          
           app.globalData.openId = res.openid
           wx.setStorage({
             key: 'openId',
