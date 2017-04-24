@@ -42,3 +42,7 @@
     height: 100%;
     /*line-height: 100%;*/
 }
+
+.btn-group button::after {
+    content: none;
+}

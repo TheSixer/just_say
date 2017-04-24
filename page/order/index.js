@@ -1,5 +1,6 @@
 var http = require('../../service/request.js'),
     dealErr = require('../../util/err_deal.js'),
+    util = require('../../util/util.js'),
     app = getApp()
 Page({
   data:{
@@ -48,11 +49,14 @@ Page({
       signType: 'MD5',
       paySign: data.paySign,
       success:function(res){
-        console.log(res)
+        //支付成功，获取订单详情
+        console.log(res.data)
         that.getOrderInfo()
       },
       fail:function(res){
-        console.log(res)
+        var title = '提示',
+            tips = '支付失败！'
+        dealErr.showTips(title, tips, function(){})
       }
     })
   },
@@ -82,7 +86,7 @@ Page({
             })
           } else {
             var expire = parseInt(res.data[0].expire)
-            res.data[0].expire = util.format(new Date(expire*1000))
+            res.data[0].expire = '有效期：' + util.format(new Date(expire*1000))
 
             that.setData({
               hasOrder: true,

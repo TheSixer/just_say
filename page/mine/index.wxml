@@ -11,18 +11,18 @@
   </view>
 
   <view class="widgets">
-    <navigator class="widget" hover-class="widget-hover" url="reservationServices/index?uid={{userInfo.user.uid}}&carId={{userInfo.car[0].carId}}&accessToken={{userInfo.user.accessToken}}">
+    <!--<navigator class="widget" hover-class="widget-hover" url="reservationServices/index?uid={{userInfo.user.uid}}&carId={{userInfo.car[0].carId}}&accessToken={{userInfo.user.accessToken}}">
       <image class="widget_icon" src="/image/reservationServices.png"></image>
       <text class="widget__name">我的课程</text>
       <image src="/image/arrowright.png" mode="aspectFill" class="widget__arrow"></image>
-    </navigator>
-    <navigator class="widget" hover-class="widget-hover" url="vehicleServices/index">
+    </navigator>-->
+    <navigator class="widget" hover-class="widget-hover" url="aboutUs/index">
       <image class="widget_icon" src="/image/reservationServicesRecord.png"></image>
       <text class="widget__name">关于Speakfan</text>
       <image src="/image/arrowright.png" mode="aspectFill" class="widget__arrow"></image>
       <view class="widget__line"></view>
     </navigator>
-    <navigator class="widget" hover-class="widget-hover" url="reservationServicesRecord/index">
+    <navigator class="widget" hover-class="widget-hover" url="copyright/index">
       <image class="widget_icon" src="/image/privilege.png"></image>
       <text class="widget__name">版权信息</text>
       <image src="/image/arrowright.png" mode="aspectFill" class="widget__arrow"></image>

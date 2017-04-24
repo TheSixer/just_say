@@ -60,6 +60,7 @@
 .words {
     color:#FFF;
     margin-top: 5rpx;
+    padding: 0 25rpx;
     line-height: 48rpx;
 }
 .currentIndex {
@@ -79,4 +80,10 @@
     display: inline-block;
     width: 50%;
     text-align: center;
+}
+.word {
+    color: #fff000;
+}
+.dict {
+    color: #1e90ff;
 }

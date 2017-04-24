@@ -42,7 +42,7 @@ Page({
             })
           } else {
             var expire = parseInt(res.data[0].expire)
-            res.data[0].expire = util.format(new Date(expire*1000))
+            res.data[0].expire = '有效期：' + util.format(new Date(expire*1000))
 
             that.setData({
               hasOrder: true,

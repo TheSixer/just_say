@@ -1,5 +1,6 @@
 var http = require('../../../service/request.js'),
     dealErr = require('../../../util/err_deal.js'),
+    Dict = require('../../../util/dict.js'),
     util = require('../../../util/util.js'),
     app = getApp(),
     updateTimeout,
@@ -180,9 +181,20 @@ Page({
       function(res) {
         dealErr.hideToast()
         dealErr.dealErr(res, function() {
-          for(var x = 0; x < res.data.length; x++)
+          for(var x = 0; x < res.data.length; x++) {
             res.data[x].index = x
+            res.data[x].wordsArr = []
 
+            var wordsArr = res.data[x].words.split(' ')
+            for(var y in wordsArr) {
+              if(wordsArr[y] in Dict.dict) {
+                res.data[x].wordsArr[y] = {
+                  'word': wordsArr[y],
+                  'dict': Dict.dict[wordsArr[y]]
+                }
+              }
+            }
+          }
           that.setData({
             arr: res.data,
             max: res.data.length
@@ -219,7 +231,7 @@ Page({
       num: options.index
     })
 
-    that.getCourse()
+    // that.getCourse()
 
   },
   onReady:function(){
@@ -230,6 +242,7 @@ Page({
     this.setData({
       stop: false
     })
+    dealErr.loading()
     this.getCourse()
   },
   onHide:function(){

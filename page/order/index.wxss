@@ -60,7 +60,7 @@
     flex-grow: 1;
     text-align: right;
 }
-.km button {
+.km button.order {
     padding-left:5px;
     padding-right:5px;
     width:65px;

@@ -10,6 +10,8 @@ Page({
 
     http._get(url, data,
       function(res) {
+        //隐藏loading
+        dealErr.hideToast()
         dealErr.dealErr(res, function() {
           that.setData({
             arr: res.data
@@ -30,7 +32,8 @@ Page({
       url: url,
       index: options.index
     })
-    
+    //显示loading
+    dealErr.loading()
     that.getCourse()
   },
   onReady:function(){
