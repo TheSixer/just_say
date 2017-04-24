@@ -231,6 +231,7 @@ Page({
       num: options.index
     })
 
+    dealErr.loading()
     // that.getCourse()
 
   },
@@ -242,7 +243,6 @@ Page({
     this.setData({
       stop: false
     })
-    dealErr.loading()
     this.getCourse()
   },
   onHide:function(){
