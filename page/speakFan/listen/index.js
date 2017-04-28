@@ -252,7 +252,8 @@ Page({
     // 页面关闭
 
     this.setData({
-      stop: true
+      stop: true,
+      playing: false
     })
     clearTimeout(updateTimeout)
   }
