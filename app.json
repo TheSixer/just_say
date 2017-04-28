@@ -24,18 +24,18 @@
     "backgroundColor": "#000",
     "list": [{
       "pagePath": "page/speakFan/index",
-      "iconPath": "image/icon_user.png",
-      "selectedIconPath": "image/icon_user_HL.png",
+      "iconPath": "image/play0.png",
+      "selectedIconPath": "image/play1.png",
       "text": "说说看"
     }, {
       "pagePath": "page/order/index",
-      "iconPath": "image/icon_tips.png",
-      "selectedIconPath": "image/icon_tips_HL.png",
+      "iconPath": "image/order0.png",
+      "selectedIconPath": "image/order1.png",
       "text": "订阅"
     }, {
       "pagePath": "page/mine/index",
-      "iconPath": "image/icon_user.png",
-      "selectedIconPath": "image/icon_user_HL.png",
+      "iconPath": "image/home0.png",
+      "selectedIconPath": "image/home1.png",
       "text": "个人中心"
     }]
   },
