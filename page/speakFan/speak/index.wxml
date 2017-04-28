@@ -4,10 +4,10 @@
     </block>   
     
     <view class="playBlock">
-        <view class="playTime">hasRecord:{{hasRecord}}</view>
+        <!--<view class="playTime">hasRecord:{{hasRecord}}</view>
         <view class="playTime">playing:{{playing}}</view>
         <view class="playTime">recording:{{recording}}</view>
-        <view class="playTime">recordPlaying:{{recordPlaying}}</view>
+        <view class="playTime">recordPlaying:{{recordPlaying}}</view>-->
         <view class="playTime">{{playTime}}</view>
         <view class="page-body-buttons">
             <block wx:if="{{playing === true && recording === false && recordPlaying === false}}">
@@ -76,7 +76,9 @@
                 {{index + 1}}. {{item.text_en}}
                 </view>
                 <view class="ch"> {{item.text_ch}}</view>
-                <view hidden="{{item.index != currentTag}}" class="words">{{item.words}}</view>
+                <view hidden="{{item.index != currentTag}}" class="words" wx:for="{{item.wordsArr}}"  wx:for-item="list" wx:key="word">
+                    <view><text class="word">{{list.word}}</text>：<text class="dict">{{list.dict}}</text></view>
+                </view>
             </view>
         </view>
     </scroll-view>

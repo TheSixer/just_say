@@ -1,5 +1,6 @@
 var http = require('../../../service/request.js'),
     dealErr = require('../../../util/err_deal.js'),
+    Dict = require('../../../util/dict.js'),
     util = require('../../../util/util.js'),
     app = getApp()
 var playTimeInterval
@@ -64,7 +65,7 @@ Page({
           that.setData({
             hasRecord: false,
             playing: false,
-            active: true,
+            // active: true,
             double: true,
             // recording: false,
             // recordPlaying: false,
@@ -87,7 +88,7 @@ Page({
               },
               complete: function(res) {
                 // complete
-                console.log('record stoped')
+                that.setData({ double: false })
                 playOthers()
               }
             })
@@ -98,19 +99,19 @@ Page({
             wx.stopRecord({
               success: function(res){
                 // success
-                console.log('voice stoped')
               },
               fail: function(res) {
                 // fail
               },
               complete: function(res) {
                 // complete
-                that.setData({
-                  double: false
-                })
+                that.setData({ double: false })
                 playOthers()
               }
             })
+          } else {
+            that.setData({ double: false })
+            playOthers()
           }
 
           function playOthers() {
@@ -163,7 +164,7 @@ Page({
     if(that.data.first) {
       that.setData({
         first: false,
-        duration: duration + 4
+        duration: duration + 3
       })
     }
     that.setData({
@@ -205,9 +206,20 @@ Page({
       function(res) {
         dealErr.hideToast()
         dealErr.dealErr(res, function() {
-          for(var x = 0; x < res.data.length; x++)
+          for(var x = 0; x < res.data.length; x++) {
             res.data[x].index = x
+            res.data[x].wordsArr = []
 
+            var wordsArr = res.data[x].words.split(' ')
+            for(var y in wordsArr) {
+              if(wordsArr[y] in Dict.dict) {
+                res.data[x].wordsArr[y] = {
+                  'word': wordsArr[y],
+                  'dict': Dict.dict[wordsArr[y]]
+                }
+              }
+            }
+          }
           that.setData({
             arr: res.data,
             max: res.data.length
@@ -223,8 +235,10 @@ Page({
           
     that.setData({
       playing: false,
+      active: false,
       playTime: util.formatTime(0),
-      recording: true
+      recording: true,
+      hasRecord: false
     })
 
     recordTimeInterval = setInterval(function () {
@@ -237,26 +251,26 @@ Page({
 
     wx.startRecord({
       success: function (res) {
-        console.log('record success')
-
+        clearInterval(recordTimeInterval)
         that.setData({
           recording: false,
-          hasRecord: true,
+          // hasRecord: true,
           recordTime: 0,
+          recordPlayTime: 0,
           tempFilePath: res.tempFilePath,
           playTime: util.formatTime(0)
         })
-        if(that.data.double) {
-          that.setData({
-            hasRecord: false
-          })
-        }
         //主动停止录音，不播放录音
-        if(!that.data.active) {
+        //录音状态下双击播放其他例句，不播放录音
+        if(that.data.double) {
+          that.setData({ hasRecord: false})
+        } else if(!that.data.active) {
           //播放录音
+          that.setData({ hasRecord: true})
           that.playVoice()
         } else {
           that.setData({
+            hasRecord: true,
             active: false
           })
         }
@@ -316,7 +330,7 @@ Page({
 
     playTimeInterval = setInterval(function () {
       var recordPlayTime = that.data.recordPlayTime + 1
-      console.log('update recordPlayTime', recordPlayTime)
+
       that.setData({
         playTime: util.formatTime(recordPlayTime),
         recordPlayTime: recordPlayTime
@@ -330,7 +344,8 @@ Page({
         var playTime = 0
         that.setData({
           recordPlaying: false,
-          playTime: util.formatTime(playTime)
+          recordPlayTime: 0,
+          playTime: util.formatTime(0)
         })
         
         that.clear()
@@ -466,7 +481,8 @@ Page({
         playing: true
       })
     }
-
+    //显示loading
+    dealErr.loading()
     that.getCourse()
   },
   onReady:function(){

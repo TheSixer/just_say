@@ -1,0 +1,14 @@
+<view class="pagy">
+    <view class="header">
+        <image mode="widthFix" src="/image/test.png"></image>
+    </view>
+
+    <view class="content">
+        <text class="about">说说看是杭州水平帆智能技术有限公司开发的训练口语能能力和记忆能力的应用。公司致力于为用户提供高效的简单的系统的学习工具。</text>
+    </view>
+
+    <view class="footer">
+        <text class="copyright">Copyright ©2017 Speakfan</text>
+        <text>杭州水平帆智能技术有限公司</text>
+    </view>
+</view>

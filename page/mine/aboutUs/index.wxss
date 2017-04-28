@@ -1,0 +1,29 @@
+.header {
+    padding: 100rpx 0 60rpx;
+    text-align: center;
+}
+.header image {
+    width: 400rpx;
+}
+.content {
+    padding: 0 30rpx;
+    text-indent: .8cm;
+}
+.content .about {
+    line-height: 50rpx;
+}
+.footer {
+    position:fixed;
+    width: 100%;
+    left:0;
+    bottom:40rpx;
+}
+.footer text {
+    display: block;
+    text-align: center;
+    padding: 10rpx;
+    color: #333;
+}
+.copyright {
+    font-size: 28rpx;
+}

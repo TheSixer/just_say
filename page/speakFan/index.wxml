@@ -41,7 +41,7 @@
           </view>
         </view>
         <text class="address">总课程数：72</text>
-        <text class="address" style="color:#D20D25;">有效期：{{order.expire}}</text>
+        <text class="address" style="color:#D20D25;">{{order.expire}}</text>
         <view class="brief">
           <text class="content">Mcguffey's Second Eclectic Reader, Revised Edition, by William Holmes McGuffey</text>
         </view>

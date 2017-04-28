@@ -6,12 +6,13 @@
         <view class="name">
           <text>精选美语一级</text>
           <view class="km">
-            <button size="mini" hidden="{{hasOrder}}" class="order" bindtap="order">订阅</button>
-            <button size="mini" hidden="{{!hasOrder}}" bindtap="order">续订</button>
+            <button class="order" size="mini" hidden="{{hasOrder}}" class="order" bindtap="order">订阅</button>
+            <button type="primary" size="mini" hidden="{{!hasOrder}}" bindtap="order">续订</button>
           </view>
         </view>
         <text class="address">总课程数：72</text>
         <text class="address">价格：50元/月</text>
+        <text class="address" style="color:#D20D25;">{{order.expire}}</text>
         <view class="brief">
           <text class="content">Mcguffey's Second Eclectic Reader, Revised Edition, by William Holmes McGuffey</text>
         </view>

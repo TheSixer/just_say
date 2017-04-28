@@ -1,0 +1,25 @@
+.page {
+    padding: 30rpx;
+    background-color: #FFF;
+}
+.title {
+    font-size: 40rpx;
+    font-weight: bold;
+}
+.land {
+    font-weight: bold;
+    line-height: 56rpx;
+}
+.content {
+    padding: 30rpx 0 10rpx;
+    margin-bottom: 10rpx;
+    font-size: 36rpx;
+    font-weight: bold;
+    border-bottom: 5rpx solid #ddd;
+}
+.list {
+
+}
+.li {
+    line-height: 40rpx;
+}

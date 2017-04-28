@@ -130,10 +130,12 @@ Page({
     var that = this
     //如果用户已登录，获取用户本地信息
     
-    var APIUrl = app.globalData.APIUrl
+    var APIUrl = app.globalData.APIUrl,
+        url = app.globalData.url
 
     that.setData({
-      url: APIUrl
+      url: APIUrl,
+      api: url
     })
 
     that.checkOpenId()

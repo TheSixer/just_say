@@ -1,6 +1,8 @@
 {
   "pages": [
     "page/mine/index",
+    "page/mine/aboutUs/index",
+    "page/mine/copyright/index",
     "page/speakFan/index",
     "page/speakFan/study/index",
     "page/speakFan/hear/index",
