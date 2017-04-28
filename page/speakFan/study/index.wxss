@@ -1,5 +1,7 @@
 .page {
     background: #000;
+    font-size:36rpx;
+    color: #DDD;
 }
 .content {
     padding-bottom: 160rpx;
@@ -8,7 +10,7 @@
     padding:20rpx 0;
     margin:0 30rpx;
     background: #000;
-    border-bottom: 1rpx solid #DDD;
+    /*border-bottom: 1rpx solid #DDD;*/
 }
 .li:last-child {
     border-bottom: none;

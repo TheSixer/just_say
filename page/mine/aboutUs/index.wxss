@@ -1,3 +1,6 @@
+.page {
+    background-color: #FFF;
+}
 .header {
     padding: 100rpx 0 60rpx;
     text-align: center;

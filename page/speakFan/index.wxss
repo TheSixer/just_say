@@ -124,3 +124,9 @@
     font-size: 22rpx;
     color: #999;
 }
+.footer {
+    padding:30rpx;
+    font-size:28rpx;
+    line-height:40rpx;
+    color:#333;
+}

@@ -1,20 +1,20 @@
 <view class="page">
   <view class="body">
     <view class="widget" url="storeDetail/index?dealer_id={{item.dealer_id}}&location={{location}}">
-      <image mode="aspectFit" class="widget_icon" src="/image/test.png"></image>
+      <image mode="widthFix" class="widget_icon" src="/image/suji.jpg"></image>
       <view class="widget_info">
         <view class="name">
-          <text>精选美语一级</text>
+          <text>速记3800词</text>
           <view class="km">
             <button class="order" size="mini" hidden="{{hasOrder}}" class="order" bindtap="order">订阅</button>
             <button type="primary" size="mini" hidden="{{!hasOrder}}" bindtap="order">续订</button>
           </view>
         </view>
-        <text class="address">总课程数：72</text>
+        <text class="address">总课程数：20</text>
         <text class="address">价格：50元/月</text>
         <text class="address" style="color:#D20D25;">{{order.expire}}</text>
         <view class="brief">
-          <text class="content">Mcguffey's Second Eclectic Reader, Revised Edition, by William Holmes McGuffey</text>
+          <text class="content">只要10天努力，诵读不到2000个例句子，就可以掌握英语单词3800个。从这里开始，你就能做到“中考英语高分”和有“一口流利的美音”，并能顺利查阅原版朗曼词典。</text>
         </view>
       </view>
     </view>

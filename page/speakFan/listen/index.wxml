@@ -29,7 +29,7 @@
         <view id="hash{{item.index}}" data-id="{{item.index}}" class="li" wx:for="{{arr}}" wx:key="words" bindtap="doubleClick">
             <view data-index="{{item.index}}">
                 <view class="en">
-                    <image hidden="{{item.index != li}}" class="playing" mode="aspectFit" src="/image/playing.jpg"></image>
+                    <image hidden="{{item.index != li}}" class="playing" mode="aspectFit" src="/image/playing.png"></image>
                 {{index + 1}}. {{item.text_en}}
                 </view>
                 <view class="ch"> {{item.text_ch}}</view>

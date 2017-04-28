@@ -1,5 +1,7 @@
 .page {
     background: #000;
+    font-size:36rpx;
+    color: #DDD;
 }
 .playBlock {
     display: block;
@@ -7,12 +9,14 @@
     position: fixed;
     bottom: 0;
     left: 0;
-    padding: 30rpx 0;
+    padding: 30rpx 0 0;
     background: #F3F3F3;
     z-index: 100;
 }
 .playTime {
-    text-align: center;
+    text-align:left;
+    padding-left:15px;
+    color: #000;
 }
 .page-body-button {
     margin: 0;
@@ -20,7 +24,7 @@
 }
 .btn {
     display: inline-block;
-    padding: 20rpx;
+    padding-bottom: 20rpx;
     border-radius: 70rpx;
 }
 .status {
@@ -38,7 +42,7 @@
     padding:20rpx 0;
     margin:0 30rpx;
     background: #000;
-    border-bottom: 1rpx solid #DDD;
+    /*border-bottom: 1rpx solid #DDD;*/
 }
 .li:last-child {
     border-bottom: none;
@@ -90,8 +94,8 @@
   margin: 1rpx auto 0;
 }
 .word {
-    color: #fff000;
+    color: #ddca7e;
 }
 .dict {
-    color: #1e90ff;
+    color: #809bbd;
 }

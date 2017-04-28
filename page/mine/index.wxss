@@ -44,7 +44,7 @@
     position: relative;
     padding-top: 26rpx;
     padding-bottom: 26rpx;
-    padding-left: 92rpx;
+    padding-left: 40rpx;
     padding-right: 40rpx;
 }
 .widget_icon {

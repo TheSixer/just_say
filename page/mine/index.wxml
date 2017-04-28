@@ -17,13 +17,13 @@
       <image src="/image/arrowright.png" mode="aspectFill" class="widget__arrow"></image>
     </navigator>-->
     <navigator class="widget" hover-class="widget-hover" url="aboutUs/index">
-      <image class="widget_icon" src="/image/reservationServicesRecord.png"></image>
+      <!--<image class="widget_icon" src="/image/reservationServicesRecord.png"></image>-->
       <text class="widget__name">关于Speakfan</text>
       <image src="/image/arrowright.png" mode="aspectFill" class="widget__arrow"></image>
       <view class="widget__line"></view>
     </navigator>
     <navigator class="widget" hover-class="widget-hover" url="copyright/index">
-      <image class="widget_icon" src="/image/privilege.png"></image>
+      <!--<image class="widget_icon" src="/image/privilege.png"></image>-->
       <text class="widget__name">版权信息</text>
       <image src="/image/arrowright.png" mode="aspectFill" class="widget__arrow"></image>
       <view class="widget__line"></view>
