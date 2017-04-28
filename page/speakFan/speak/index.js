@@ -88,7 +88,6 @@ Page({
               },
               complete: function(res) {
                 // complete
-                that.setData({ double: false })
                 playOthers()
               }
             })
@@ -105,12 +104,10 @@ Page({
               },
               complete: function(res) {
                 // complete
-                that.setData({ double: false })
                 playOthers()
               }
             })
           } else {
-            that.setData({ double: false })
             playOthers()
           }
 
@@ -263,7 +260,10 @@ Page({
         //主动停止录音，不播放录音
         //录音状态下双击播放其他例句，不播放录音
         if(that.data.double) {
-          that.setData({ hasRecord: false})
+          that.setData({ 
+            hasRecord: false,
+            double: false
+          })
         } else if(!that.data.active) {
           //播放录音
           that.setData({ hasRecord: true})
