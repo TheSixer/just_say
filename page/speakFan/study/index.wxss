@@ -16,11 +16,11 @@
     border-bottom: none;
 }
 .en {
-    color: #fff;
+    color: #ddd;
     line-height: 40rpx;
 }
 .ch {
-    color: #fff;
+    color: #ddd;
     margin-top: 5rpx;
     line-height: 48rpx;
 }

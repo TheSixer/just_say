@@ -216,7 +216,7 @@ Page({
     wx.getSystemInfo( {
       success: ( res ) => {
         this.setData( {
-          windowHeight: res.windowHeight - 140,
+          windowHeight: res.windowHeight - 80,
           windowWidth: res.windowWidth
         })
       }

@@ -14,7 +14,7 @@
         <text class="address">价格：50元/月</text>
         <text class="address" style="color:#D20D25;">{{order.expire}}</text>
         <view class="brief">
-          <text class="content">只要10天努力，诵读不到2000个例句子，就可以掌握英语单词3800个。从这里开始，你就能做到“中考英语高分”和有“一口流利的美音”，并能顺利查阅原版朗曼词典。</text>
+          <text class="content">你想10天时间做到“中考英语高分”和有“一口流利的美音”吗？没错！10天！坚持努力10天，诵读2000个句子，掌握3800个高频词汇。现在开始打卡，DAY10, DAY9 ... DAY1,奇迹将会发生在你身上。</text>
         </view>
       </view>
     </view>

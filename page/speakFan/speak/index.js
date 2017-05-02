@@ -394,9 +394,24 @@ Page({
             app.globalData.studyProgramOfLisen = false
             app.globalData.studyProgramOfSpeak = false
 
-            wx.setStorage({
+            wx.getStorage({
               key: 'studyProgram',
-              data: that.data.num
+              success: function(res){
+                // success
+                if(parseInt(res.data) < parseInt(that.data.num)) {
+                  wx.setStorage({
+                    key: 'studyProgram',
+                    data: that.data.num
+                  })
+                }
+              },
+              fail: function(res) {
+                // fail
+                wx.setStorage({
+                  key: 'studyProgram',
+                  data: that.data.num
+                })
+              }
             })
 
             if (res.confirm) {
@@ -460,7 +475,7 @@ Page({
     wx.getSystemInfo( {
       success: ( res ) => {
         this.setData( {
-          windowHeight: res.windowHeight - 140,
+          windowHeight: res.windowHeight - 80,
           windowWidth: res.windowWidth
         })
       }

@@ -14,9 +14,13 @@
     z-index: 100;
 }
 .playTime {
+    display:inline-block;
+    position:absolute;
     text-align:left;
     padding-left:15px;
-    color: #000;
+    color:#333;
+    top:50%;
+    transform:translateY(-50%);
 }
 .page-body-button {
     margin: 0;
@@ -52,11 +56,11 @@
     height: 30rpx;
 }
 .en {
-    color:#FFF;
+    color:#ddd;
     line-height: 40rpx;
 }
 .ch {
-    color:#FFF;
+    color:#ddd;
     margin-top: 5rpx;
     line-height: 48rpx;
     text-indent: 20rpx;
@@ -68,9 +72,10 @@
     line-height: 48rpx;
 }
 .currentIndex {
-    position: absolute;
-    top: 20rpx;
-    right: 20rpx;
+    position:absolute;
+    top:50%;
+    right:20rpx;
+    transform:translateY(-50%);
 }
 .btn-group {
     position: fixed;
