@@ -2,7 +2,7 @@
   <view class="page-head">
     <view class="page-body-info header">
       <view class="top">
-        <button class="order" size="mini" hidden="{{hasOrder}}" class="order" bindtap="order">开通会员</button>
+        <button type="primary" size="mini" hidden="{{hasOrder}}" class="order" bindtap="order">开通会员</button>
         <button type="primary" size="mini" hidden="{{!hasOrder}}" class="order" bindtap="order">续费会员</button>
         <view class="expire" style="color:#D20D25;font-size:20rpx;padding-top:5rpx;">{{order.expire}}</view>
       </view>
