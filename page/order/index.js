@@ -79,7 +79,6 @@ Page({
       function( res ) {
         dealErr.hideToast()
         dealErr.dealErr(res, function() {
-          console.log(res)
           if(res.data.length === 0) {
             that.setData({
               hasOrder: false

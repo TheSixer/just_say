@@ -27,7 +27,7 @@
       </view>
     </view>
 
-    <view class="tips"><text>注：仅供测试，订阅后可以学完3800词。需订阅后才可切换到课2！</text></view>
+    <view class="tips"><text>注：仅供测试，开通会员后可以学完3800词。需开通会员后才可切换到课2！</text></view>
   </view>
 
   <view class="body" wx:if="{{hasOrder}}">

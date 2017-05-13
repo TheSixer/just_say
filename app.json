@@ -8,8 +8,7 @@
     "page/speakFan/hear/index",
     "page/speakFan/listen/index",
     "page/speakFan/repeat/index",
-    "page/speakFan/speak/index",
-    "page/order/index"
+    "page/speakFan/speak/index"
   ],
   "window": {
     "navigationBarTextStyle": "white",
@@ -29,11 +28,6 @@
       "iconPath": "image/play0.png",
       "selectedIconPath": "image/play1.png",
       "text": "说说看"
-    }, {
-      "pagePath": "page/order/index",
-      "iconPath": "image/order0.png",
-      "selectedIconPath": "image/order1.png",
-      "text": "订阅"
     }, {
       "pagePath": "page/mine/index",
       "iconPath": "image/home0.png",
