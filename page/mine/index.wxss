@@ -11,9 +11,12 @@
   text-align:right;
 }
 button.order {
+  position:absolute;
+  right:30rpx;
+  top:22rpx;
   font-size:12px;
   line-height:48rpx;
-  padding-left: 24rpx;
+  padding-left:24rpx;
   padding-right:24rpx;
 }
 .sign {
@@ -79,8 +82,8 @@ button.order {
 }
 .widget__arrow{
     position: absolute;
-    top: 32rpx;
-    right: 44rpx;
+    top: 30rpx;
+    right: 30rpx;
     width: 32rpx;
     height: 32rpx;
 }

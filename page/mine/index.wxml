@@ -1,17 +1,12 @@
 <view class="container">
   <view class="page-head">
     <view class="page-body-info header">
-      <view class="top">
-        <button type="primary" size="mini" hidden="{{hasOrder}}" class="order" bindtap="order">开通会员</button>
-        <button type="primary" size="mini" hidden="{{!hasOrder}}" class="order" bindtap="order">续费会员</button>
-        <view class="expire" style="color:#D20D25;font-size:20rpx;padding-top:5rpx;">{{order.expire}}</view>
-      </view>
       <block>
         <view class="navigator">
           <wx-image class="userinfo-avatar" src="{{userInfo.avatarUrl}}"></wx-image>
           <view class="userinfo-nickname">
             {{userInfo.nickName}} 
-            <view class="vip" style="color: {{hasOrder?'#D20D25':'#cccccc'}}">๑vip</view>
+            <!--<view class="vip" style="color: {{hasOrder?'#D20D25':'#cccccc'}}">๑vip</view>-->
           </view>
         </view>
       </block>
@@ -37,4 +32,14 @@
       <view class="widget__line"></view>
     </navigator>
   </view>
+<!--
+  <view class="widgets">
+    <view class="widget" hover-class="widget-hover">
+      <text class="widget__name">活动会员</text>
+      <button type="primary" size="mini" hidden="{{hasOrder}}" class="order" bindtap="order">开通</button>
+      <button type="primary" size="mini" hidden="{{!hasOrder}}" class="order" bindtap="order">续费</button>
+    </view>
+  </view>
+    <view class="expire" hidden="{{!hasOrder}}" style="color:#D20D25;font-size:28rpx;padding-top:5rpx;padding-left:30rpx;">{{order.expire}}</view>
+    <view class="expire" hidden="{{hasOrder}}" style="font-size:28rpx;padding-top:5rpx;padding-left:30rpx;">参加线下活动，语言能力评测</view>-->
 </view>
