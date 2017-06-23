@@ -105,14 +105,14 @@
 .left {
     display: flex;
     line-height: 58rpx;
-    width: 70%;
+    width: 60%;
     color: #009200;
 }
 .bold {
     font-weight: bold;
 }
 .right {
-    width: 30%;
+    width: 40%;
     text-align: right;
 }
 .right button {

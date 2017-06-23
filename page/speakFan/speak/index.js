@@ -1,6 +1,5 @@
 var http = require('../../../service/request.js'),
     dealErr = require('../../../util/err_deal.js'),
-    Dict = require('../../../util/dict.js'),
     util = require('../../../util/util.js'),
     app = getApp()
 var playTimeInterval
@@ -32,6 +31,29 @@ Page({
       console.log(hash)
       this.setData({
           mao: hash
+      })
+  },
+  getDict: function () {
+    var that = this
+
+    var url = that.data.url + '3800basedict.txt'
+
+    http._get(url, {},
+      function (res) {
+        dealErr.dealErr(res, function () {
+          var arr = res.data.match(/[^\r\n]+/g)
+          var obj = {}
+          for (var x in arr) {
+            var obj1 = arr[x].split('  ')
+            obj[obj1[0]] = obj1[1]
+          }
+          that.setData({
+            dict: obj
+          })
+          that.getCourse()
+        })
+      }, function (res) {
+        dealErr.fail()
       })
   },
   doubleClick: function (e) {
@@ -208,17 +230,19 @@ Page({
             res.data[x].wordsArr = []
 
             var wordsArr = res.data[x].words.split(' ')
-            for(var y in wordsArr) {
-              if(wordsArr[y] in Dict.dict) {
+            for (var y in wordsArr) {
+              if (wordsArr[y] in that.data.dict) {
                 res.data[x].wordsArr[y] = {
                   'word': wordsArr[y],
-                  'dict': Dict.dict[wordsArr[y]]
+                  'dict': that.data.dict[wordsArr[y]]
                 }
               }
             }
           }
+          result = res.data.sort(sortByFirstWord)
+
           that.setData({
-            arr: res.data,
+            arr: result,
             max: res.data.length
           })
         })
@@ -226,6 +250,20 @@ Page({
         dealErr.hideToast()
         dealErr.fail()
       })
+
+    function sortByFirstWord(a, b) {
+      var num1 = a.text_en.substr(0, 1).charCodeAt(),
+          num2 = b.text_en.substr(0, 1).charCodeAt()
+      if (num1 > 96) {
+        num1 = num1 - 31.5
+      }
+      if (num2 > 96) {
+        num2 = num2 - 31.5
+      }
+      if (num1 > num2)
+        return 1
+      return -1
+    }
   },
   startRecord: function () {
     var that = this
@@ -475,7 +513,7 @@ Page({
     wx.getSystemInfo( {
       success: ( res ) => {
         this.setData( {
-          windowHeight: res.windowHeight - 80,
+          windowHeight: res.windowHeight,
           windowWidth: res.windowWidth
         })
       }
@@ -498,7 +536,7 @@ Page({
     }
     //显示loading
     dealErr.loading()
-    that.getCourse()
+    that.getDict()
   },
   onReady:function(){
     // 页面渲染完成

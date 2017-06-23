@@ -10,11 +10,18 @@ Page({
     hasOrder: false,
     isLoading: false    //是否请求中
   },
-  toStudy: function(e) {
+  toStudy: function (e) {
     var that = this
-    
+
     wx.navigateTo({
-      url: 'study/index?index=' + parseInt(e.target.id)
+      url: 'hear/index?index=' + parseInt(e.target.id)
+    })
+  },
+  toRepeat: function (e) {
+    var that = this
+
+    wx.navigateTo({
+      url: 'speak/index?index=' + parseInt(e.target.id)
     })
   },
   getOrderInfo: function() {

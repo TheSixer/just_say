@@ -1,18 +1,26 @@
 .page {
     background: #000;
+    font-size:36rpx;
+    color: #DDD;
 }
 .playBlock {
     display: block;
     width: 100%;
     position: fixed;
-    top: 0;
+    bottom: 0;
     left: 0;
-    padding: 30rpx 0;
-    background: #F3F3F3;
+    padding: 30rpx 0 0;
+    background: #000;
     z-index: 100;
 }
 .playTime {
-    text-align: center;
+    display:inline-block;
+    position:absolute;
+    text-align:left;
+    padding-left:15px;
+    color:#ddd;
+    top:50%;
+    transform:translateY(-50%);
 }
 .page-body-button {
     margin: 0;
@@ -20,7 +28,7 @@
 }
 .btn {
     display: inline-block;
-    padding: 20rpx;
+    padding-bottom: 20rpx;
     border-radius: 70rpx;
 }
 .status {
@@ -31,14 +39,14 @@
     height: 100rpx;
 }
 .content {
-    padding-top: 260rpx;
+    padding-bottom: 260rpx;
     z-index: 10;
 }
 .li {
     padding:20rpx 0;
     margin:0 30rpx;
     background: #000;
-    border-bottom: 1rpx solid #DDD;
+    /*border-bottom: 1rpx solid #DDD;*/
 }
 .li:last-child {
     border-bottom: none;
@@ -48,11 +56,11 @@
     height: 30rpx;
 }
 .en {
-    color:#FFF;
+    color:#ddd;
     line-height: 40rpx;
 }
 .ch {
-    color:#FFF;
+    color:#ddd;
     margin-top: 5rpx;
     line-height: 48rpx;
     text-indent: 20rpx;
@@ -60,12 +68,14 @@
 .words {
     color:#FFF;
     margin-top: 5rpx;
+    padding: 0 25rpx;
     line-height: 48rpx;
 }
 .currentIndex {
-    position: absolute;
-    top: 20rpx;
-    right: 20rpx;
+    position:absolute;
+    top:50%;
+    right:20rpx;
+    transform:translateY(-50%);
 }
 .btn-group {
     position: fixed;
@@ -79,4 +89,10 @@
     display: inline-block;
     width: 50%;
     text-align: center;
+}
+.word {
+    color: #ddca7e;
+}
+.dict {
+    color: #809bbd;
 }

@@ -1,7 +1,8 @@
 var http = require('../../../service/request.js'),
     dealErr = require('../../../util/err_deal.js'),
     util = require('../../../util/util.js'),
-    app = getApp()
+    app = getApp(),
+    updateTimeout
 Page({
   data: {
     li: 0,
@@ -19,6 +20,29 @@ Page({
           mao: hash
       })
   },
+  getDict: function() {
+    var that = this
+
+    var url = that.data.url + '3800basedict.txt'
+
+    http._get(url, {},
+      function (res) {
+        dealErr.dealErr(res, function() {
+          var arr = res.data.match(/[^\r\n]+/g)
+          var obj = {}
+          for(var x in arr) {
+            var obj1 = arr[x].split('  ')
+            obj[obj1[0]] = obj1[1]
+          }
+          that.setData({
+            dict: obj
+          })
+          that.getCourse()
+        })
+      }, function (res) {
+        dealErr.fail()
+      })
+  },
   doubleClick: function (e) {
     var that = this
     //触摸时间距离页面打开时间毫秒数
@@ -30,7 +54,7 @@ Page({
       //如果两次单击间隔小于300毫秒，认为是双击
       if(curTime - lastTime < 300) {
         //双击
-        if(that.data.currentTag == e.currentTarget.dataset.id) {
+        if (that.data.currentTag == e.currentTarget.dataset.id) {
           that.setData({
             loop: false,
             currentTag: 'a'
@@ -39,7 +63,7 @@ Page({
           that.setData({
             loop: true,
             li: parseInt(e.currentTarget.dataset.id),
-            currentTag: e.currentTarget.dataset.id
+            currentTag: parseInt(e.currentTarget.dataset.id)
           })
           that.play()
           that.afterStop()
@@ -96,24 +120,68 @@ Page({
     clearInterval(this.updateInterval)
     
     wx.onBackgroundAudioStop(function() {
-      if(!that.data.loop) {
-        that.setData({
-          li: that.data.li + 1
-        })
+      if (!that.data.loop) {
+        if (that.data.li + 1 == that.data.max) {
+          that.setData({
+            li: 0
+          })
+        } else {
+          that.setData({
+            li: that.data.li + 1
+          })
+        }
       }
       that.setData({
         playing: false,
         playTime: util.formatTime(0)
       })
-      
-      app.globalData.backgroundAudioPlaying = false
-      
-      if(that.data.li == that.data.max) {
-        app.gloable.studyProgramOfLisen = that.data.num
-      } else if(that.data.stop) {
-        
+
+
+      app.globalData.audioPlaying = false
+      console.log(that.data.li + ' - ' + that.data.max)
+      if (that.data.li == 0 && !that.data.loop) {
+        app.globalData.studyProgramOfLisen = true
+        if (app.globalData.studyProgramOfSpeak) {
+          wx.showModal({
+            title: '提示',
+            cancelText: '留在听力',
+            cancelColor: '#999',
+            content: '本单元已学完，是否前往学习下一单元？',
+            success: function (res) {
+              if (res.confirm) {
+                wx.switchTab({
+                  url: '/page/speakFan/index'
+                })
+              }
+              //重置
+              app.globalData.studyProgramOfLisen = false
+              app.globalData.studyProgramOfSpeak = false
+
+              wx.setStorage({
+                key: 'studyProgram',
+                data: that.data.num
+              })
+            }
+          })
+        } else {
+          wx.showModal({
+            title: '提示',
+            cancelText: '留在听力',
+            cancelColor: '#999',
+            content: '已完成听力练习，前往跟读练习？',
+            success: function (res) {
+              if (res.confirm) {
+                wx.redirectTo({
+                  url: '../speak/index?index=' + that.data.num
+                })
+              }
+            }
+          })
+        }
+      } else if (that.data.stop) {
+
       } else {
-        that.updateTimeout = setTimeout(function(){
+        updateTimeout = setTimeout(function () {
           that.play()
           that.afterStop()
         }, 2000)
@@ -153,21 +221,51 @@ Page({
         data = {}
 
     http._get(url, data,
-      function(res) {
+      function (res) {
+        dealErr.hideToast()
         dealErr.dealErr(res, function() {
-          for(var x = 0; x < res.data.length; x++)
+          for (var x = 0; x < res.data.length; x++) {
             res.data[x].index = x
+            res.data[x].wordsArr = []
+      
+            var wordsArr = res.data[x].words.split(' ')
+            for (var y in wordsArr) {
+              if (wordsArr[y] in that.data.dict) {
+                res.data[x].wordsArr[y] = {
+                  'word': wordsArr[y],
+                  'dict': that.data.dict[wordsArr[y]]
+                }
+              }
+            }
+          }
+          result = res.data.sort(sortByFirstWord)
 
           that.setData({
-            arr: res.data,
+            arr: result,
             max: res.data.length
           })
-          that.play()
-          that.afterStop()
+          // if (!that.data.playing) {
+          //   that.play()
+          //   that.afterStop()
+          // }
         })
       }, function(res) {
         dealErr.fail()
       })
+
+    function sortByFirstWord(a, b) {
+      var num1 = a.text_en.substr(0, 1).charCodeAt(),
+          num2 = b.text_en.substr(0, 1).charCodeAt()
+      if (num1 > 96) {
+        num1 = num1 - 31.5
+      }
+      if (num2 > 96) {
+        num2 = num2 - 31.5
+      }  
+      if (num1 > num2)
+        return 1
+      return -1
+    }
   },
   onLoad:function(options){
     // 页面初始化 options为页面跳转所带来的参数
@@ -176,7 +274,7 @@ Page({
     wx.getSystemInfo( {
       success: ( res ) => {
         this.setData( {
-          windowHeight: res.windowHeight - 140,
+          windowHeight: res.windowHeight,
           windowWidth: res.windowWidth
         })
       }
@@ -192,7 +290,8 @@ Page({
       num: options.index
     })
 
-    that.getCourse()
+    dealErr.loading()
+    that.getDict()
 
     if (app.globalData.backgroundAudioPlaying) {
       this.setData({
@@ -205,9 +304,9 @@ Page({
   },
   onShow:function(){
     // 页面显示
-    this.setData({
-      stop: false
-    })
+    // this.setData({
+    //   stop: false
+    // })
   },
   onHide:function(){
     // 页面隐藏
@@ -215,10 +314,10 @@ Page({
   onUnload:function(){
     // 页面关闭
 
-    this.setData({
-      stop: true
-    })
-    clearTimeout(this.updateTimeout)
-    clearInterval(this.updateInterval)
+    // this.setData({
+    //   stop: true
+    // })
+    // clearTimeout(this.updateTimeout)
+    // clearInterval(this.updateInterval)
   }
 })

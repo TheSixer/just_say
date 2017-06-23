@@ -22,7 +22,8 @@
         <text class="left">课<text class="bold"> 1 </text></text>
         <!--<image class="finished" mode="aspectFit" src="/image/timg.jpg"></image>-->
         <view class="right">
-          <button id="1" type="primary" size="mini" class="order" bindtap="toStudy">预习</button>
+          <button id="1" type="primary" size="mini" class="order" bindtap="toStudy">听力</button>
+          <button id="1" type="warn" size="mini" class="order" bindtap="toRepeat">跟读</button>
         </view>
       </view>
     </view>
@@ -53,7 +54,8 @@
         <text class="left">课<text class="bold"> {{item.course}} </text></text>
         <image class="finished" mode="aspectFit" src="/image/timg.jpg"></image>
         <view class="right">
-          <button id="{{item.id}}" type="primary" size="mini" class="order" bindtap="toStudy">再来一遍</button>
+          <button id="{{item.id}}" type="primary" size="mini" class="order" bindtap="toStudy">听力</button>
+          <button id="{{item.id}}" type="warn" size="mini" class="order" bindtap="toRepeat">跟读</button>
         </view>
       </view>
     </view>
@@ -63,7 +65,8 @@
         <text class="left">课<text class="bold"> {{last}} </text></text>
         <!--<image class="finished" mode="aspectFit" src="/image/timg.jpg"></image>-->
         <view class="right">
-          <button id="{{last}}" type="primary" size="mini" class="order" bindtap="toStudy">学习</button>
+          <button id="{{last}}" type="primary" size="mini" class="order" bindtap="toStudy">听力</button>
+          <button id="{{last}}" type="warn" size="mini" class="order" style="margin-left:10rpx;" bindtap="toRepeat">跟读</button>
         </view>
       </view>
     </view>

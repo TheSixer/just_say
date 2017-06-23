@@ -1,4 +1,20 @@
 <view class="page">
+    <scroll-view scroll-y="true" scroll-into-view="{{mao}}" style="height: {{windowHeight}}px" class="content">
+        <view id="hash{{index}}" data-id="{{index}}" class="li" wx:for="{{arr}}" wx:key="words" bindtap="doubleClick">
+            <view data-index="{{index}}">
+                <view class="en">
+                    <image hidden="{{index != li}}" class="playing" mode="aspectFit" src="/image/playing.png"></image>
+                {{index + 1}}. {{item.text_en}}
+                </view>
+                <view class="ch"> {{item.text_ch}}</view>
+                <block wx:if="{{index === currentTag}}">
+                  <view class="words" wx:for="{{item.wordsArr}}"  wx:for-item="list" wx:key="word">
+                      <view><text class="word">{{list.word}}</text>：<text class="dict">{{list.dict}}</text></view>
+                  </view>
+                </block>
+            </view>
+        </view>
+    </scroll-view>
     <view class="playBlock">
         <view class="playTime">{{playTime}}</view>
         <view class="page-body-buttons">
@@ -21,16 +37,4 @@
         </view>
         <button data-hash="hash{{li}}" bindtap="goHash" class="currentIndex" size="mini">{{li + 1}}</button>
     </view>
-    <scroll-view scroll-y="true" scroll-into-view="{{mao}}" style="height: {{windowHeight}}px" class="content">
-        <view id="hash{{item.index}}" data-id="{{item.index}}" class="li" wx:for="{{arr}}" wx:key="words" bindtap="doubleClick">
-            <view data-index="{{item.index}}">
-                <view class="en">
-                    <image hidden="{{item.index != li}}" class="playing" mode="aspectFit" src="/image/playing.jpg"></image>
-                {{index + 1}}. {{item.text_en}}
-                </view>
-                <view class="ch"> {{item.text_ch}}</view>
-                <view hidden="{{item.index != currentTag}}" class="words">{{item.words}}</view>
-            </view>
-        </view>
-    </scroll-view>
 </view>
