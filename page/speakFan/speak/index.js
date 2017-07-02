@@ -472,7 +472,7 @@ Page({
           success: function(res) {
             if (res.confirm) {
               wx.redirectTo({
-                url: '../listen/index?index=' + that.data.num
+                url: '../hear/index?index=' + that.data.num
               })
             } else {
               that.setData({

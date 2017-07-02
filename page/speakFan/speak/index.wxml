@@ -75,7 +75,8 @@
                 {{index + 1}}. {{item.text_en}}
                 </view>
                 <view class="ch"> {{item.text_ch}}</view>
-                <block wx:if="{{index === currentTag}}">
+                <!--<block wx:if="{{index === currentTag}}">-->
+                <block>
                   <view class="words" wx:for="{{item.wordsArr}}"  wx:for-item="list" wx:key="word">
                       <view><text class="word">{{list.word}}</text>：<text class="dict">{{list.dict}}</text></view>
                   </view>
